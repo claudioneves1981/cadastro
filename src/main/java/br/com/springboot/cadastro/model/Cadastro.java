@@ -134,5 +134,4 @@ public class Cadastro implements Serializable{
 	public void setNumeronis(String numeronis) {
 		this.numeronis = numeronis;
 	}
-
 }
