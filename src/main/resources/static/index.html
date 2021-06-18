@@ -17,6 +17,9 @@ html {
 <body>
 <ul class="nav nav-tabs" id="myTab" role="tablist">
   <li class="nav-item" role="presentation">
+    <button class="nav-link" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="profile" aria-selected="false">Inicio</button>
+  </li>
+  <li class="nav-item" role="presentation">
     <button class="nav-link active" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="true">Cadastro</button>
   </li>
   <li class="nav-item" role="presentation">
@@ -24,11 +27,12 @@ html {
   </li>
 </ul>
 <div class="tab-content" id="myTabContent" >
+  <div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">...</div>
   <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
 	<br>
+	<form class="row g-3" id="formCadastro">
 	<h3>Dados Pessoais</h3>
 	<hr style="height:2px;border-width:0;color:gray;background-color:blue">
-	<form class="row g-3" id="formCadastro">
     <div class="col-md-6" style ="width: 650px;">
     <label for="inputEmail4" class="form-label">ID</label>
     <input type="text" class="form-control" id="codigo" style="width: 46px; "><label for="inputAddress" class="form-label">Nome </label><input type="text" class="form-control" id="nome"  style="width: 382px; ">
@@ -63,14 +67,14 @@ html {
   		<label class="form-check-label" for="flexRadioDefault1">Sim </label>
    </div>
 <div class="form-check">
-  <input class="form-check-input" type="radio" name="estuda" id="estudanao" value="false" checked>
+  <input class="form-check-input" type="radio" name="estuda" id="estudanao" value="false">
   <label class="form-check-label" for="flexRadioDefault2">
 Não  </label>
 </div>
  	  <label for="inputAddress" class="form-label">Quantos moram na casa?</label><input type="text" class="form-control" id="quantosmoram"  style="width: 325px; ">
  	  <label for="inputAddress" class="form-label">Casa Propria?</label>
  	  <div class="form-check">
-  <input class="form-check-input" type="radio" name="casapropria" id="casaprorpiasim" value="true" checked>
+  <input class="form-check-input" type="radio" name="casapropria" id="casaprorpiasim" value="true">
   <label class="form-check-label" for="flexRadioDefault1">
     Sim
   </label>
@@ -108,6 +112,8 @@ Não  </label>
             <input type="text" class="form-control" id="nomeBusca">
           </div>
           <button type="button" class="btn btn-success" onclick="pesquisarCadastro()">Buscar</button>
+          <button type="button" class="btn btn-secondary" onclick="listarCadastros()">Gerar Relatorio</button>
+          <label id ="registrosencontrados">Registros Encontrados: </label>
         </form>
         
         <div style ="height: 1100px;">
@@ -126,6 +132,7 @@ Não  </label>
 	<th scope="col"> Tel Principal</th>
     <th scope="col">Editar</th>
     <th scope="col">Delete</th>
+    <th scope ="col">Imprimir/PDF</th>
     </tr>
   </thead>
   <tbody>
@@ -141,6 +148,171 @@ Não  </label>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
     <script type = "text/javascript">
+		
+    	
+     function listarCadastros(){
+    	 
+    	 nome = $('#nomeBusca').val();
+     	  
+     	  //if(nome != null && nome.trim()!= ''){
+     		  
+     		  $.ajax({
+     	    		method: "GET",
+     	    		url: "cadastrobuscarPorNome",
+     	    		data : "name=" + nome ,
+     	    		success: function(response){
+     	    			var style = "<style>";
+     	    	        style = style + "table {width:100%;font: 8px Calibri;}";
+     	    	        style = style + "table, tr, th, td {border: solid 1px #DDD; border-collapse: collapse;";
+     	    	        style = style + "padding: 2px 3px;text-align: center;}";
+     	    	        style = style + "</style>";
+     	    			var win = window.open('', '', 'height=700,width=700');
+ 	    		        win.document.write('<html><head>');
+ 	    		        win.document.write('<title>Cadastro</title>');   // <title> CABEÇALHO DO PDF.                                   // INCLUI UM ESTILO NA TAB HEAD
+ 	    		        win.document.write('</head>');
+ 	    		        win.document.write('<body>');
+ 	    		 		win.document.write(style);
+ 	    		        win.document.write('<table id="tabelalista">');
+ 	    		        win.document.write(' <thead>'+
+    										'<tr>'+
+    										'<th scope="col">ID</th>'+
+    										'<th scope="col">Nome</th>'+
+   										    '<th scope="col">Data Nasc</th>'+
+    										'<th scope="col"> Idade </th>'+
+											'<th scope="col"> Endereço</th>'+
+											'<th scope="col"> Número</th>'+
+											'<th scope="col"> Bairro</th>'+
+											'<th scope="col"> CEP</th>'+
+											'<th scope="col"> Cidade</th>'+
+											'<th scope="col"> Tel 1</th>'+
+    										'<th scope="col"> Tel 2r</th>'+
+    										'<th scope="col">Quantos Moram</th>'+
+    										'<th scope ="col">Estuda</th>'+
+    										'<th scope ="col">Casa Propria</th>'+
+    										'<th scope ="col">Numero Nis</th>'+
+    										'</tr>'+
+  											'</thead>');
+ 	    		        win.document.write('<tbody>');
+     	    			//win.document.write($('#tabelalista > tbody > tr').remove());
+     	    			for (var i = 0; i < response.length; i++){
+     	    				var estuda;
+     	    				if((response[i].estuda) == true){
+     	    					estuda = 'sim';
+     	    				}else{
+     	    					estuda = 'não';
+     	    				}
+     	    				var casapropria;
+     	    				if((response[i].casapropria)== true){
+     	    					casapropria = 'sim';
+     	    				}else{
+     	    					casapropria = 'não';
+     	    				}
+     	    				
+     	    				win.document.write('<tr id="'+response[i].codigo+'"><td>'+response[i].codigo+'</td>'+
+         	   						'<td>'+response[i].nome+'</td><td>'+response[i].datanasc+'</td><td>'+response[i].idade+'</td>'+
+         	   						'<td>'+response[i].endereco+'</td><td>'+response[i].numero+'</td><td>'+response[i].bairro+'</td>'+
+         	   						'<td>'+response[i].cep+'</td><td>'+response[i].cidade+'</td><td>'+response[i].telefone1+'</td></td>'+
+         	   						'<td>'+response[i].telefone2+'</td><td>'+response[i].quantosmoram+'</td><td>'+estuda+'</td>'+
+         	   						'<td>'+casapropria+'</td><td>'+response[i].numeronis+'</td></tr>');     	    			
+     	    			}
+ 	    		        win.document.write('</tbody');
+     		 			win.document.write('</body>');
+						win.document.write('</html>');
+						win.document.close(); 	                                         // FECHA A JANELA
+		       			win.print(); 
+  	    			}
+  	    	}).fail(function(xhr,status,errorThrown){
+  	    		alert("Erro ao buscar usuario:" + xhr.responseText);
+  	    	}); 
+  	//  } 
+  }
+    
+    function CriaPDF(codigo) {
+    	
+    	$.ajax({
+    		method: "GET",
+    		url: "cadastrobuscaruserId",
+    		data : "iduser=" + codigo,
+    		success: function(response){
+    		$("#codigo").val(response.codigo);
+			$("#nome").val(response.nome);
+   			$("#datanasc").val(response.datanasc);
+   			$("#idade").val(response.idade);
+			$("#endereco").val(response.endereco);
+			$("#numero").val(response.numero);
+			$("#bairro").val(response.bairro);
+			$("#cep").val(response.cep);
+			$("#cidade").val(response.cidade);
+			$("#estado").val(response.estado);
+			$("#telefone1").val(response.telefone1);
+			$("#telefone2").val(response.telefone2);
+			//$(".estuda:checked").val(response.estuda);
+			$("#quantosmoram").val(response.quantosmoram);
+			//$(".casapropria:checked").val(response.casapropria);
+			$("#numeronis").val(response.numeronis);
+			
+			var minhaTabela = document.getElementById('formCadastro').innerHTML;
+	        // CRIA UM OBJETO WINDOW
+	        var win = window.open('', '', 'height=700,width=700');
+	        win.document.write('<html><head>');
+	        win.document.write('<title>Cadastro</title>');   // <title> CABEÇALHO DO PDF.                                   // INCLUI UM ESTILO NA TAB HEAD
+	        win.document.write('</head>');
+	        win.document.write('<body>');
+	        win.document.write('<h3>Dados Pessoais</h3>');
+	        win.document.write(' <label for="inputEmail4" class="form-label">ID: </label>')
+	        win.document.write(response.codigo);
+	        win.document.write(' <label for="inputEmail4" class="form-label">Nome: </label>')
+	        win.document.write(response.nome);
+	        win.document.write('<br><label for="inputEmail4" class="form-label">Data Nascimento: </label>')
+	        win.document.write(response.datanasc);
+	        win.document.write('<label for="inputEmail4" class="form-label">Idade: </label>')
+	        win.document.write(response.idade);
+	        win.document.write('<br>')
+	        win.document.write('<h3>Endereço</h3>')
+	        win.document.write(' <label for="inputEmail4" class="form-label">Endereço: </label>')
+	        win.document.write(response.endereco);
+	        win.document.write(' <label for="inputEmail4" class="form-label">Número: </label>')
+	        win.document.write(response.numero);
+	        win.document.write(' <label for="inputEmail4" class="form-label">Bairro: </label>')
+	        win.document.write(response.bairro);
+	        win.document.write(' <label for="inputEmail4" class="form-label">CEP: </label>')
+	        win.document.write(response.cep);
+	        win.document.write(' <label for="inputEmail4" class="form-label">Cidade: </label>')
+	        win.document.write(response.cidade);
+	        win.document.write('<br><label for="inputEmail4" class="form-label">Estado: </label>')
+	        win.document.write(response.estado);
+	        win.document.write('<br><label for="inputEmail4" class="form-label">Telefone 1: </label>')
+	        win.document.write(response.telefone1);
+	        win.document.write(' <label for="inputEmail4" class="form-label">Telefone 2: </label>')
+	        win.document.write(response.telefone2);
+	        win.document.write('<br>')
+	        win.document.write('<h3>Outros</h3>')
+	       	win.document.write(' <label for="inputEmail4" class="form-label">estuda: </label>')
+	       	if (response.estuda == false){
+	       	win.document.write('Não');	
+	       	}else{
+	       	win.document.write('Sim');
+	       	}
+	        win.document.write(' <label for="inputEmail4" class="form-label">Quantos Moram: </label>')
+	        win.document.write(response.quantosmoram);
+	    	win.document.write(' <label for="inputEmail4" class="form-label">Casa Propria: </label>')
+	       	if (response.casapropria == false){
+	       	win.document.write('Não');	
+	       	}else{
+	       	win.document.write('Sim');
+	       	}
+	        win.document.write(' <label for="inputEmail4" class="form-label">Numero Nis: </label>')
+	        win.document.write(response.numeronis);                       // O CONTEUDO DA TABELA DENTRO DA TAG BODY
+	        win.document.write('</body></html>');
+	        win.document.close(); 	                                         // FECHA A JANELA
+	        win.print();   
+    	  //  $("#modalPesquisar").modal('hide');
+    		}
+    	}).fail(function(xhr,status,errorThrown){
+    		alert("Erro ao buscar usuario por id:" + xhr.responseText);
+    	}); 
+    	    	                                                         // IMPRIME O CONTEUDO
+    }
     
     function mascara(t, mask){
     	 var i = t.value.length;
@@ -194,9 +366,7 @@ Não  </label>
     }
     
 function colocarEmEdicao(codigo){
-	
-	$('#myTab li:nth-child(1) button').tab('show');
-	
+		
     	$.ajax({
 	    		method: "GET",
 	    		url: "cadastrobuscaruserId",
@@ -214,21 +384,22 @@ function colocarEmEdicao(codigo){
 				$("#estado").val(response.estado);
 				$("#telefone1").val(response.telefone1);
 				$("#telefone2").val(response.telefone2);
-				//$(".estuda:checked").val(response.estuda);
 				$("#quantosmoram").val(response.quantosmoram);
-				//$(".casapropria:checked").val(response.casapropria);
 				$("#numeronis").val(response.numeronis);
 	    	  //  $("#modalPesquisar").modal('hide');
 	    		}
 	    	}).fail(function(xhr,status,errorThrown){
 	    		alert("Erro ao buscar usuario por id:" + xhr.responseText);
 	    	}); 
+    	
+    	$('#myTab li:nth-child(2) button').tab('show');
+
 }
 
     function pesquisarCadastro(){
   	  nome = $('#nomeBusca').val();
   	  
-  	  if(nome != null && nome.trim()!= ''){
+  	  //if(nome != null && nome.trim()!= ''){
   		  
   		  $.ajax({
   	    		method: "GET",
@@ -237,13 +408,16 @@ function colocarEmEdicao(codigo){
   	    		success: function(response){
   	    			$('#tabelaresultados > tbody > tr').remove();
   	    			for (var i = 0; i < response.length; i++){
-  	   				$('#tabelaresultados > tbody').append('<tr id="'+response[i].codigo+'"><td>'+response[i].codigo+'</td><td>'+response[i].nome+'</td><td>'+response[i].datanasc+'</td><td>'+response[i].idade+'</td><td>'+response[i].endereco+'</td><td>'+response[i].numero+'</td><td>'+response[i].bairro+'</td><td>'+response[i].cep+'</td><td>'+response[i].cidade+'</td><td>'+response[i].telefone1+'</td><td><button type="button" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" role="tab" aria-controls="profile" class="btn btn-secondary" aria-selected="false" onclick="colocarEmEdicao('+response[i].codigo+')">Ver</button></td><td><button type="button" class="btn btn-danger" onclick="deleteCadastro('+response[i].codigo+')">Delete</button></td></tr>');
+  	   				$('#tabelaresultados > tbody').append('<tr id="'+response[i].codigo+'"><td>'+response[i].codigo+'</td><td>'+response[i].nome+'</td><td>'+response[i].datanasc+'</td><td>'+response[i].idade+'</td><td>'+response[i].endereco+'</td><td>'+response[i].numero+'</td><td>'+response[i].bairro+'</td><td>'+response[i].cep+'</td><td>'+response[i].cidade+'</td><td>'+response[i].telefone1+'</td><td><button type="button" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" role="tab" aria-controls="profile" class="btn btn-secondary" aria-selected="false" onclick="colocarEmEdicao('+response[i].codigo+')">Ver</button></td><td><button type="button" class="btn btn-danger" onclick="deleteCadastro('+response[i].codigo+')">Delete</button></td><td><button type="button" class="btn btn-primary" onclick="CriaPDF('+response[i].codigo+')">Imprimir/PDF</button></td></tr>');
   	    			}
+  	    			$('#quantidade').remove();
+  	    			$('#registrosencontrados').append('<label id = "quantidade">'+response.length+'</label>');
   	    		}
   	    	}).fail(function(xhr,status,errorThrown){
   	    		alert("Erro ao buscar usuario:" + xhr.responseText);
   	    	}); 
-  	  }
+  
+  	 // }
     
     }
   function salvarUsuario(){
