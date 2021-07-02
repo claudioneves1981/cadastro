@@ -2,6 +2,7 @@ package br.com.springboot.cadastro.controller;
 
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -79,4 +80,34 @@ public class CadastroController {
     	List<Cadastro> cadastro = cadastroRepository.buscarPorNome(name.trim().toUpperCase());
     	return new ResponseEntity<List<Cadastro>>(cadastro, HttpStatus.OK);
     }
+   
+   @GetMapping(value = "cadastrobuscarPorCadastro")
+   @ResponseBody
+   public ResponseEntity<List<Cadastro>> buscarPorCadastro(@RequestParam(name = "name") String name){
+   	List<Cadastro> cadastro = cadastroRepository.buscarPorCadastro(name.trim().toUpperCase());
+   	return new ResponseEntity<List<Cadastro>>(cadastro, HttpStatus.OK);
+   }
+   
+   @GetMapping(value = "ordenarPorCidade")
+   @ResponseBody
+   public ResponseEntity<List<Cadastro>> ordenarPorCidade(){
+   	List<Cadastro> cadastro = cadastroRepository.ordenarPorCidade();
+   	return new ResponseEntity<List<Cadastro>>(cadastro, HttpStatus.OK);
+   }
+   
+   @GetMapping(value = "validaDuplicados")
+   @ResponseBody
+   public ResponseEntity<List<Cadastro>> validaDuplicados(@RequestParam(name = "name") String name){
+   	List<Cadastro> cadastro = cadastroRepository.validaDuplicados(name.trim().toUpperCase());
+   	return new ResponseEntity<List<Cadastro>>(cadastro, HttpStatus.OK);
+   	
+   }
+   
+   @GetMapping(value = "cadastrobuscarporParametros")
+   @ResponseBody
+   public ResponseEntity<List<Cadastro>> buscaPorParametros(@RequestParam(name= "name") String name, @RequestParam(name = "cidade") String cidade){
+   	List<Cadastro> cadastro = cadastroRepository.buscaPorParametros(name.trim().toUpperCase(), cidade);
+   	return new ResponseEntity<List<Cadastro>>(cadastro, HttpStatus.OK);  	
+   }
+   
 }

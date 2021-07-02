@@ -16,10 +16,20 @@ public interface CadastroRepository extends JpaRepository<Cadastro, Long> {
 												  "upper(trim(c.bairro)) like %?1% or "+
 												  "upper(trim(c.cep)) like %?1% or "+
 												  "upper(trim(c.cidade)) like %?1% or "+
-												  "upper(trim(c.estado)) like %?1% or "+
-												  "upper(trim(c.telefone1)) like %?1% or "+
-												  "upper(trim(c.telefone2)) like %?1% or "+
-												  "upper(trim(c.quantosmoram)) like %?1% or "+
-												  "upper(trim(c.numeronis)) like %?1%")
+												  "upper(trim(c.telefone1)) like %?1%")
+	List<Cadastro> buscarPorCadastro(String name);
+	
+	@Query(value = "select c from Cadastro c where upper(trim(c.nome)) like %?1%")
 	List<Cadastro> buscarPorNome(String name);
+	
+	@Query(value = "SELECT DISTINCT cidade FROM Cadastro ORDER BY cidade")
+	List<Cadastro> ordenarPorCidade();
+	
+	@Query(value = "SELECT COUNT(c) FROM Cadastro c WHERE upper(trim(c.nome)) like %?1%")
+	List<Cadastro> validaDuplicados(String name);
+	
+	@Query(value = "select c from Cadastro c where upper(trim(c.nome)) like %?1% and "
+	+ "c.cidade like %?2%")
+	List<Cadastro> buscaPorParametros(String name, String cidade);
+
 }
