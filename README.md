@@ -24,7 +24,8 @@ São necessários os seguintes pré-requisitos para a execução do projeto:
 * Controle de versão GIT instalado na sua máquina.
 * GitHub Cli instalado na sua maquina.
 * Conta no GitHub para o armazenamento do seu projeto na nuvem.
-* PostgreSQL instalado na sua maquina.
+* PostgreSQL 9 instalado na sua maquina.
+* Bootstrap 5 para o front 
 
 
 Abaixo, seguem links dos principais recursos usados no projeto.
@@ -38,6 +39,7 @@ Abaixo, seguem links dos principais recursos usados no projeto.
 * [Github Cli](https://cli.github.com/)
 * [Referência para o padrão arquitetural REST](https://restfulapi.net/)
 * [Site oficial PostgreSQL](https://www.postgresql.org/)
+* [Bootstrap](https://getbootstrap.com/)
 
 Site postado no Heroku
 http://exemplo-cadastro-claudio-neves.herokuapp.com/cadastro/
