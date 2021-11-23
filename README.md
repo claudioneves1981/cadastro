@@ -40,6 +40,3 @@ Abaixo, seguem links dos principais recursos usados no projeto.
 * [Referência para o padrão arquitetural REST](https://restfulapi.net/)
 * [Site oficial PostgreSQL](https://www.postgresql.org/)
 * [Bootstrap](https://getbootstrap.com/)
-
-Site postado no Heroku
-http://exemplo-cadastro-claudio-neves.herokuapp.com/cadastro/
