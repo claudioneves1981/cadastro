@@ -1,190 +1,179 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-	<!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.min.js">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/styleAnimationCliente.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.min.js">
 <title>Controle de Cadastros</title>
-<style type ="text/css">
-
-html {
-	margin-left: 5%;
-	margin-right: 5%;
-	margin-top: 5%;
-}
-.container {
-  padding: 2rem 0rem;
-}
-
-h3:after{
-  content: ' ';
-  display: block;
-  width: 100%;
-  height: 2px;
-  margin-top: 10px;
-  background: -webkit-linear-gradient(left, rgba(147,184,189,0) 0%,rgba(147,184,189,0.8) 20%,rgba(147,184,189,1) 53%,rgba(147,184,189,0.8) 79%,rgba(147,184,189,0) 100%); 
-  background: linear-gradient(left, rgba(147,184,189,0) 0%,rgba(147,184,189,0.8) 20%,rgba(147,184,189,1) 53%,rgba(147,184,189,0.8) 79%,rgba(147,184,189,0) 100%); 
-}
-
-h4 {
-  margin: 2rem 0rem 1rem;
-}
-
-label{
-  position: relative;
-}
-
-</style>
 </head>
 <body style="background-image: url('fundo_sistema.jpg'); position: relative; height: 100vh; width: 100vw; background-size: cover; background-attachment: fixed;">
-<ul class="nav nav-tabs" id="myTab" role="tablist">
-   <li class="nav-item" role="presentation">
-   <div id = "usuariologado" class="nav-link">
-   </div>
-   </li>
-  <li class="nav-item" role="presentation">
-    <button class="nav-link" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="profile" aria-selected="false">Menu</button>
-  </li>
-  <li class="nav-item" role="presentation">
-    <button class="nav-link active" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="true">Cadastro</button>
-  </li>
-  <li class="nav-item" role="presentation">
-    <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Pesquisa</button>
-  </li>
-   <li class="nav-item" role="presentation">
-   <button class = "nav-link" onclick="sair()">Sair</button>
-   </li>
-</ul>
+<main>
+<header class="d-flex justify-content-center py-3">
+    <ul class="nav nav-pills">
+        <li class="nav-item"><div id="usuariologado" class="nav-link text-dark"></div></li>
+        <li class="nav-item" role="presentation"><a class="nav-link text-dark" href="#" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" role="tab" aria-controls="profile" aria-selected="false">Menu</a></li>
+        <li class="nav-item" role="presentation"><a class="nav-link text-dark active" href="#" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" role="tab" aria-controls="profile" aria-selected="true">Cadastro</a></li>
+        <li class="nav-item" role="presentation"><a class="nav-link text-dark" href="#" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" role="tab" aria-controls="contact" aria-selected="false">Pesquisa</a></li>
+        <li class="nav-item"><a href="#" id="sair" class="nav-link text-dark">Sair</a></li>
+    </ul>
+</header>
+
 <div class="tab-content" id="myTabContent" >
   <div class="tab-pane fade" id="usuario" role="tabpanel" aria-labelledby="usuario-tab">...</div>
   <div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">...</div>
   <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
 	<br>
 	<form class="row g-3" id="formCadastro">
-	<h3>Dados Pessoais</h3>
-    <div class="col-md-6" style ="width: 650px;">
-    <label for="inputEmail4"  >ID</label>
-    <input type="text" class="form-control" id="codigo" style="width: 46px; "><label for="inputAddress"  >Nome </label><input type="text" class="form-control" id="nome"  style="width: 382px; ">
-  	<label for="inputAddress"  >Data Nascimento </label>
-  	<div class="input-group date" data-provide="datepicker" style="width: 184px;">
-    <input type="date" class="form-control" id="datanasc">
-  	  	<div class="input-group-addon">
-        <span class="glyphicon glyphicon-th"></span>
-    	</div>
-	</div>
-  	 <label for="inputAddress">Idade</label><input type="text" class="form-control" id="idade"  style="width: 115px;" onfocus="calculaIdade()">
-    </div>
-     <br>
-     <h3>Endereço</h3>
-     <div class="col-md-6" style ="width: 650px;">
-     <label for="inputAddress"  >Endereço </label><input type="text" class="form-control" id="endereco"  style="width: 300px; ">
-     <label for="inputAddress2"  >Nº </label><input type="text" class="form-control" id="numero" style="width: 47px; ">
-     <label for="inputAddress2"  >Bairro </label> <input type="text" class="form-control" id="bairro"  style="width: 300px; ">
-     <label for="inputAddress2"  >CEP </label><input type="text" class="form-control" id="cep" style="width: 92px; " onkeypress="mascara(this, '#####-###')" maxlength="9"><label for="inputAddress2"  >Cidade </label><input type="text" class="form-control" id="cidade" style="width: 92px; "><label for="inputAddress2"  >UF </label><input type="text" class="form-control" id="estado" style="width: 92px; ">
-     </div>
-      <div class="col-md-6">
-      <label for="inputAddress"  >Telefone1</label><input type="text" class="form-control" id="telefone1"  style="width: 325px; " onkeypress="mascara(this, '## #####-####')" maxlength="13">
-      <label for="inputAddress"  >Telefone2</label><input type="text" class="form-control" id="telefone2"  style="width: 325px; " onkeypress="mascara(this, '## #####-####')" maxlength="13">
- 	  </div>
- 	  <br>
- 	  <h3>Outros</h3> 
-    <div>
-  	 	<label for="inputAddress"  >Estuda </label><div class="form-check">
-  		<input class="form-check-input" type="radio" name="estuda" id="estudasim" value="true">
-  		<label class="form-check-label" for="flexRadioDefault1">Sim </label>
-   </div>
-   <div class="form-check">
-  <input class="form-check-input" type="radio" name="estuda" id="estudanao" value="false">
-  <label class="form-check-label" for="flexRadioDefault2">Não </label>
-   </div>
- 	  <label for="inputAddress"  >Quantos moram na casa?</label><input type="text" class="form-control" id="quantosmoram"  style="width: 325px; ">
- 	  <label for="inputAddress"  >Casa Propria?</label>
- 	  <div class="form-check">
-  <input class="form-check-input" type="radio" name="casapropria" id="casaprorpiasim" value="true">
-  <label class="form-check-label" for="flexRadioDefault1">Sim</label>
-</div>
-<div class="form-check">
-  <input class="form-check-input" type="radio" name="casapropria" id="casaprorpianao" value="false">
-  <label class="form-check-label" for="flexRadioDefault2">Não </label>
-</div>
-<div>
-<label for="inputAddress"  >Numero NIS </label><input type="text" class="form-control" id="numeronis" style="width: 325px; ">
-</div>
-  </div>
+	    <h2 class="sub-title">Dados Pessoais</h2>
+            <div class="col-md-6" style ="width: 650px;">
+                <label>ID</label>
+                <input type="text" class="form-control" id="codigo" style="width: 46px; "><label>Nome</label><input type="text" class="form-control" id="nome"  style="width: 382px; ">
+  	            <label>Data Nascimento </label>
+  	            <div class="input-group date" data-provide="datepicker" style="width: 184px;">
+                    <input type="date" class="form-control" id="datanasc">
+  	  	            <div class="input-group-addon">
+                    <span class="glyphicon glyphicon-th"></span>
+    	            </div>
+	            </div>
+  	            <label >Idade</label>
+                <input type="text" class="form-control" id="idade"  style="width: 115px;" onfocus="calculaIdade()">
+            </div>
+            <br>
+        <h2 class="sub-title">Endereço</h2>
+            <div class="col-md-6" style ="width: 650px;">
+                <label>Endereço </label><input type="text" class="form-control" id="endereco"  style="width: 300px; ">
+                <label>Nº </label><input type="text" class="form-control" id="numero" style="width: 47px; ">
+                <label>Bairro </label> <input type="text" class="form-control" id="bairro"  style="width: 300px; ">
+                <label>CEP </label><input type="text" class="form-control" id="cep" style="width: 92px; " onkeypress="mascara(this, '#####-###')" maxlength="9"><label>Cidade </label><input type="text" class="form-control" id="cidade" style="width: 92px; "><label   >UF </label><input type="text" class="form-control" id="estado" style="width: 92px; ">
+            </div>
+            <div class="col-md-6">
+                <label>Telefone1</label><input type="text" class="form-control" id="telefone1"  style="width: 325px; " onkeypress="mascara(this, '## #####-####')" maxlength="13">
+                <label>Telefone2</label><input type="text" class="form-control" id="telefone2"  style="width: 325px; " onkeypress="mascara(this, '## #####-####')" maxlength="13">
+ 	        </div>
+ 	        <br>
+ 	    <h2 class="sub-title">Outros</h2>
+            <div>
+  	 	        <label>Estuda </label>
+                <div class = "checkbox">
+                    <div class="boxes">
+  		                <input class="input-checkbox" type="radio" name="estuda" id="estudasim" value="true">
+  		                <label>Sim </label>
+                    </div>
+                </div>
+                <div class = "checkbox">
+                    <div class="boxes">
+                        <input class="input-checkbox" type="radio" name="estuda" id="estudanao" value="false">
+                        <label class="form-check-label" >Não </label>
+                    </div>
+                </div>
+ 	            <label>Quantos moram na casa?</label><input type="text" class="form-control" id="quantosmoram"  style="width: 325px; ">
+ 	            <label>Casa Propria?</label>
+                <div class = "checkbox">
+                    <div class="boxes">
+                        <input class=input-checkbox" type="radio" name="casapropria" id="casaprorpiasim" value="true">
+                        <label class="form-check-label">Sim</label>
+                    </div>
+                </div>
+                <div class = "checkbox">
+                    <div class="boxes">
+                        <input class="input-checkbox" type="radio" name="casapropria" id="casaprorpianao" value="false">
+                        <label class="form-check-label" >Não </label>
+                    </div>
+                </div>
+                <div>
+                    <label>Numero NIS </label><input type="text" class="form-control" id="numeronis" style="width: 325px; ">
+                </div>
+            </div>
 	</form>
-	<div class="col-md-6" style="width : 700px;">
-	<button type="button" class="btn btn-primary" onclick="validaDuplicados()">Salvar</button>
-	<button type="button" class="btn btn-secondary" onclick="novoUsuario();">Novo</button>
-	<button type="button" class="btn btn-warning" onclick="botaoDeletarDaTela();">Deletar</button>
-  </div>
-	</div>
+	<table>
+        <tr>
+            <th><button type="button" class="input-block btn-primary" onclick="salvarUsuario()">Salvar</button>
+            </th>
+            <th><button type="button" class="input-block btn-secondary" onclick="novoUsuario();">Novo</button>
+            </th>
+            <th><button type="button" class="input-block btn-warning" onclick="botaoDeletarDaTela();">Deletar</button>
+            </th>
+        </tr>
+    </table>
+	    </div>
   <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-  <div id="modalPesquisar" tabindex="-1" aria-labelledby="exampleModalLabel">
-  <div>
-    <div>
-      <div>
-        <br>
-        <h3 id="exampleModalLabel">Pesquisa</h3>
-      </div>
-      <div>
-        <form>
-         <div>
-            <label for="nomeBusca"  >Pesquisar por nome</label>
-            <input type="text" class="form-control" id="nomeBusca" style="width: 325px;">
-             <div class="input-group mb-3">
-  			<div class="input-group-prepend">
-    		<label class="input-group-text" for="inputGroupSelect01">Filtro: Cidades</label>
-  			</div>
-  			<select class="custom-select mr-sm-2" id="selecionarCidade" style="width: 325px;" onclick = "selecionaCidade()">  			 
-  			</select>
-  			<button type="button" class="btn btn-success" onclick="pesquisarSomentePeloNome()">Buscar</button>
-			</div>
-          </div>
-          <div>
-            <label for="nomeBusca"  >Pesquisar por algum Dado da Tabela.</label>
-            <input type="text" class="form-control" id="cadastroBusca" style="width: 325px;">            
-            <button type="button" class="btn btn-success" onclick="pesquisarCadastro()">Buscar</button>
-          </div>
-          <div>
-          <br>
-          <button type="button" class="btn btn-secondary" onclick="listarCadastros()">Gerar Relatorio</button>
-          <button type="button" class="btn btn-warning" onclick="coletaDados()">Imprimir Selecionados</button>
-          <label id ="registrosencontrados">Registros Encontrados: </label>
-          </div>
-        </form>
-        <div style ="height: 800px;">
- <table class="table table-bordered" id="tabelaresultados">
-  <thead>
-    <tr>
-    <th scope="col">ID</th>
-    <th scope="col">Nome</th>
-    <th scope="col">Data Nasc</th>
-    <th scope="col"> Idade </th>
-	<th scope="col"> Endereço</th>
-	<th scope="col"> Número</th>
-	<th scope="col"> Bairro</th>
-	<th scope="col"> CEP</th>
-	<th scope="col"> Cidade</th>
-	<th scope="col"> Tel Principal</th>
-    <th scope="col">Editar</th>
-    <th scope="col">Delete</th>
-    <th scope ="col">Imprimir/PDF</th>
-    </tr>
-  </thead>
-  <tbody>
-  </tbody>
-</table>
-      </div>
-      </div>
+    <div id="modalPesquisar" tabindex="-1" aria-labelledby="exampleModalLabel">
+        <div>
+            <div>
+                <div>
+                    <br>
+                    <h2 class="sub-title" id="exampleModalLabel">Pesquisa</h2>
+                </div>
+                <div>
+                    <form>
+                        <div>
+                            <label for="nomeBusca"  >Pesquisar por nome</label>
+                            <input type="text" class="form-control" id="nomeBusca" style="width: 325px;">
+                                <div class="input-group mb-3">
+  			                        <div class="input-group-prepend">
+    		                            <label class="input-group-text">Filtro: Cidades</label>
+  			                        </div>
+  			                        <select class="custom-select mr-sm-2" id="selecionarCidade" style="width: 325px;" onclick = "selecionaCidade()"></select>
+  			                        <button type="button" class="input-block btn-success" onclick="pesquisarSomentePeloNome()">Buscar</button>
+			                    </div>
+                        </div>
+                        <div>
+                            <label for="nomeBusca"  >Pesquisar por algum Dado da Tabela.</label>
+                            <input type="text" class="form-control" id="cadastroBusca" style="width: 325px;">
+                            <button type="button" class="input-block btn-success" onclick="pesquisarCadastro()">Buscar</button>
+                        </div>
+                        <div>
+                            <br>
+                            <button type="button" class="input-block btn-secondary" onclick="listarCadastros()">Gerar Relatorio</button>
+                            <button type="button" class="input-block btn-warning" onclick="coletaDados()">Imprimir Selecionados</button>
+                            <label id ="registrosencontrados">Registros Encontrados: </label>
+                        </div>
+                    </form>
+                    <div style ="height: 800px;">
+                        <table class="table table-bordered" id="tabelaresultados">
+                            <thead>
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Nome</th>
+                                    <th scope="col">Data Nasc</th>
+                                    <th scope="col"> Idade </th>
+	                                <th scope="col"> Endereço</th>
+	                                <th scope="col"> Número</th>
+	                                <th scope="col"> Bairro</th>
+	                                <th scope="col"> CEP</th>
+	                                <th scope="col"> Cidade</th>
+	                                <th scope="col"> Tel Principal</th>
+                                    <th scope="col">Editar</th>
+                                    <th scope="col">Delete</th>
+                                    <th scope ="col">Imprimir/PDF</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
   </div>
+  <div class="tab-pane fade" role="tabpanel" aria-labelledby="sair-tab"></div>
 </div>
-  </div>
-  <div class="tab-pane fade" id="sair" role="tabpanel" aria-labelledby="sair-tab"></div>
-</div>
+    <div class="alert hide">
+        <span class="fas fa-exclamation-circle">!</span>
+        <span class="msg">Atenção:</span>
+        <span class="close-btn">
+                    <span class="fas fa-times">X</span>
+            </span>
+
+    </div>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
-    <script src="funcoes.js"></script>
+    <script src="scripts/funcoes.js"></script>
+    <script src="scripts/sessao.js"></script>
+</main>
 </body>
 </html>

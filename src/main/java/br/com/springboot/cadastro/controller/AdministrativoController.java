@@ -30,7 +30,6 @@ public class AdministrativoController {
 	private AdministrativoRepository administrativoRepository;
     /**
      *
-     * @param name the name to greet
      * @return greeting text
      */
     
@@ -44,15 +43,17 @@ public class AdministrativoController {
     
    @PostMapping(value = "administrativosalvar")
    @ResponseBody
-   public Status salvar(@Valid @RequestBody Administrativo administrativo) {
+   public ResponseEntity<String> salvar(@Valid @RequestBody Administrativo administrativo) {
        List<Administrativo> administrativos = administrativoRepository.findAll();
        for (Administrativo admin : administrativos) {
 			if (admin.equals(administrativo)) {
-               return Status.USER_ALREADY_EXISTS;
+               return ResponseEntity.ok()
+                       .body("Cadastro Duplicado, Usuario ja existe");
             }
        }
        administrativoRepository.save(administrativo);
-       return Status.SUCCESS;
+       return ResponseEntity.ok()
+               .body("Cadastro Salvo com Sucesso!!!");
    }
    
    @DeleteMapping(value = "administrativodelete")
@@ -62,7 +63,7 @@ public class AdministrativoController {
     	return new ResponseEntity<String>("Usuario deletado com sucesso", HttpStatus.OK);
     }
    
-   @GetMapping(value = "administrativobuscaruserId")
+   @GetMapping(value = "administrativobuscaruserid")
    @ResponseBody
     public ResponseEntity<Administrativo> buscaruserId(@RequestParam(name = "iduser") Long iduser){
     	Administrativo administrativo = administrativoRepository.findById(iduser).get();
@@ -81,50 +82,50 @@ public class AdministrativoController {
     	return new ResponseEntity<Administrativo>(user, HttpStatus.OK);
     }
    
-   @GetMapping(value = "administrativobuscarPorNome")
+   @GetMapping(value = "administrativobuscarpornome")
    @ResponseBody
     public ResponseEntity<List<Administrativo>> buscarPorNome(@RequestParam(name = "name") String name){
     	List<Administrativo> administrativo = administrativoRepository.buscarPorNome(name.trim().toUpperCase());
     	return new ResponseEntity<List<Administrativo>>(administrativo, HttpStatus.OK);
     }
    
-   @GetMapping(value = "administrativobuscarPorAdministrativo")
+   @GetMapping(value = "buscarporadministrativo")
    @ResponseBody
    public ResponseEntity<List<Administrativo>> buscarPorAdministrativo(@RequestParam(name = "name") String name){
    	List<Administrativo> administrativo = administrativoRepository.buscarPorAdministrativo(name.trim().toUpperCase());
    	return new ResponseEntity<List<Administrativo>>(administrativo, HttpStatus.OK);
    }
    
-   @GetMapping(value = "validaDuplicadosAdministrativo")
+   @PostMapping(value = "login")
    @ResponseBody
-   public ResponseEntity<List<Administrativo>> validaDuplicados(@RequestParam(name = "name") String name){
-   	List<Administrativo> administrativo = administrativoRepository.validaDuplicados(name.trim().toUpperCase());
-   	return new ResponseEntity<List<Administrativo>>(administrativo, HttpStatus.OK);
-   	
-   }
-   
-   @PostMapping(value = "logado")
-   @ResponseBody
-   public Status loginUser(@Valid @RequestBody Administrativo administrativo) {
+   public ResponseEntity<Boolean> loginUser(@Valid @RequestBody Administrativo administrativo) {
        List<Administrativo> administrativos = administrativoRepository.findAll();
        for (Administrativo other : administrativos) {
-           if (other.equals(administrativo) && administrativo.getAdministrativo() == false) {
-               return Status.SUCCESS;
+           if (other.getUsuario().equals(administrativo.getUsuario()) &&
+                   other.getSenha().equals(administrativo.getSenha()) &&
+                   other.getAdministrativo().equals(administrativo.getAdministrativo())) {
+               return ResponseEntity.ok()
+                       .body(true);
            }
        }
-       return Status.FAILURE;
+       return ResponseEntity.ok()
+               .body(false);
    }
    
-   @PostMapping(value = "logadoadmin")
+   @PostMapping(value = "loginadmin")
    @ResponseBody
-   public Status loginAdmin(@Valid @RequestBody Administrativo administrativo) {
+   public ResponseEntity<Boolean> loginAdmin(@Valid @RequestBody Administrativo administrativo) {
        List<Administrativo> administrativos = administrativoRepository.findAll();
        for (Administrativo other : administrativos) {
-           if (other.equals(administrativo) && administrativo.getAdministrativo() == true) {
-               return Status.SUCCESS;
+           if (other.getUsuario().equals(administrativo.getUsuario()) &&
+                   other.getSenha().equals(administrativo.getSenha()) &&
+                   other.getAdministrativo().equals(administrativo.getAdministrativo())) {
+               return ResponseEntity.ok()
+                       .body(true);
            }
        }
-       return Status.FAILURE;
+       return ResponseEntity.ok()
+               .body(false);
    }
    
    
