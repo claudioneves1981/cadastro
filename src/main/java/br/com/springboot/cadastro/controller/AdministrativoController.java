@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import br.com.springboot.cadastro.model.Administrativo;
 import br.com.springboot.cadastro.repository.AdministrativoRepository;
-import br.com.springboot.cadastro.status.Status;
 
 
 /**
@@ -37,8 +36,8 @@ public class AdministrativoController {
     @ResponseBody
     public ResponseEntity<List<Administrativo>> listaUsuario(){
     	List<Administrativo> administrativos = administrativoRepository.findAll();
-    	return new ResponseEntity<List<Administrativo>>(administrativos, HttpStatus.OK);
-    
+        return ResponseEntity.ok()
+                .body(administrativos);
     }
     
    @PostMapping(value = "administrativosalvar")
@@ -60,14 +59,17 @@ public class AdministrativoController {
    @ResponseBody
     public ResponseEntity<String> delete(@RequestParam Long iduser){
     	administrativoRepository.deleteById(iduser);
-    	return new ResponseEntity<String>("Usuario deletado com sucesso", HttpStatus.OK);
+       return ResponseEntity.ok()
+               .body("Usuario deletado com sucesso");
     }
    
    @GetMapping(value = "administrativobuscaruserid")
    @ResponseBody
     public ResponseEntity<Administrativo> buscaruserId(@RequestParam(name = "iduser") Long iduser){
     	Administrativo administrativo = administrativoRepository.findById(iduser).get();
-    	return new ResponseEntity<Administrativo>(administrativo, HttpStatus.OK);
+
+       return ResponseEntity.ok()
+               .body(administrativo);
     }
    
    @PutMapping(value = "administrativoatualizar")
@@ -75,25 +77,30 @@ public class AdministrativoController {
     public ResponseEntity<?> buscaruserId(@RequestBody Administrativo administrativo){
     	
 	   if(administrativo.getCodigo() == null) {
-		   return new ResponseEntity<String>("Codigo de Administrativo não foi informado para atualização", HttpStatus.OK);
+           return ResponseEntity.ok()
+                   .body("Codigo de Administrativo não foi informado para atualização");
 	   }
 	   
 	   Administrativo user = administrativoRepository.saveAndFlush(administrativo);
-    	return new ResponseEntity<Administrativo>(user, HttpStatus.OK);
+
+       return ResponseEntity.ok()
+               .body(user);
     }
    
    @GetMapping(value = "administrativobuscarpornome")
    @ResponseBody
     public ResponseEntity<List<Administrativo>> buscarPorNome(@RequestParam(name = "name") String name){
     	List<Administrativo> administrativo = administrativoRepository.buscarPorNome(name.trim().toUpperCase());
-    	return new ResponseEntity<List<Administrativo>>(administrativo, HttpStatus.OK);
+        return ResponseEntity.ok()
+               .body(administrativo);
     }
    
    @GetMapping(value = "buscarporadministrativo")
    @ResponseBody
    public ResponseEntity<List<Administrativo>> buscarPorAdministrativo(@RequestParam(name = "name") String name){
    	List<Administrativo> administrativo = administrativoRepository.buscarPorAdministrativo(name.trim().toUpperCase());
-   	return new ResponseEntity<List<Administrativo>>(administrativo, HttpStatus.OK);
+       return ResponseEntity.ok()
+               .body(administrativo);
    }
    
    @PostMapping(value = "login")

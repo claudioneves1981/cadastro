@@ -1,16 +1,10 @@
 package br.com.springboot.cadastro.controller;
 
-import java.awt.*;
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
-import java.util.Properties;
 
-
-import br.com.springboot.cadastro.model.Administrativo;
 import br.com.springboot.cadastro.utils.TabelaUtil;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -78,7 +72,7 @@ public class CadastroController {
    
    @GetMapping(value = "cadastrobuscaruserid")
    @ResponseBody
-    public ResponseEntity<Cadastro> buscaruserId(@RequestParam(name = "iduser") Long iduser) throws DocumentException, IOException, URISyntaxException {
+    public ResponseEntity<Cadastro> buscaruserId(@RequestParam(name = "iduser") Long iduser) throws DocumentException, IOException {
        Document documento = new Document();
        Cadastro cadastro = cadastroRepository.findById(iduser).get();
        //Properties properties = System.getProperties();
@@ -157,7 +151,7 @@ public class CadastroController {
 
     @GetMapping(value="buscarporcadastro")
     @ResponseBody
-    public ResponseEntity<List<Cadastro>> buscarPorCadastro(@RequestParam(name = "name") String name) throws IOException, DocumentException {
+    public ResponseEntity<List<Cadastro>> buscarPorCadastro(@RequestParam(name = "name") String name){
         List<Cadastro> cadastro = cadastroRepository.buscarPorCadastro(name.trim().toUpperCase());
         return ResponseEntity.ok()
                 .body(cadastro);
@@ -165,7 +159,7 @@ public class CadastroController {
 
     @GetMapping(value = "gerandopdf")
     @ResponseBody
-    public ResponseEntity<List<Cadastro>> gerandoPdf(@RequestParam(name = "name") String name) throws IOException, DocumentException, URISyntaxException {
+    public ResponseEntity<List<Cadastro>> gerandoPdf(@RequestParam(name = "name") String name) throws IOException, DocumentException{
        Document documento = new Document(PageSize.A4.rotate());
        List<Cadastro> cadastro = cadastroRepository.buscarPorNome(name.trim().toUpperCase());
        float tableWidth = 100f;
