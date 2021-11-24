@@ -2,7 +2,6 @@ package br.com.springboot.cadastro.controller;
 
 import java.util.List;
 
-import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,7 +41,7 @@ public class AdministrativoController {
     
    @PostMapping(value = "administrativosalvar")
    @ResponseBody
-   public ResponseEntity<String> salvar(@Valid @RequestBody Administrativo administrativo) {
+   public ResponseEntity<String> salvar(@RequestBody Administrativo administrativo) {
        List<Administrativo> administrativos = administrativoRepository.findAll();
        for (Administrativo admin : administrativos) {
 			if (admin.equals(administrativo)) {
@@ -105,7 +104,7 @@ public class AdministrativoController {
    
    @PostMapping(value = "login")
    @ResponseBody
-   public ResponseEntity<Boolean> loginUser(@Valid @RequestBody Administrativo administrativo) {
+   public ResponseEntity<Boolean> loginUser(@RequestBody Administrativo administrativo) {
        List<Administrativo> administrativos = administrativoRepository.findAll();
        for (Administrativo other : administrativos) {
            if (other.getUsuario().equals(administrativo.getUsuario()) &&
@@ -121,7 +120,7 @@ public class AdministrativoController {
    
    @PostMapping(value = "loginadmin")
    @ResponseBody
-   public ResponseEntity<Boolean> loginAdmin(@Valid @RequestBody Administrativo administrativo) {
+   public ResponseEntity<Boolean> loginAdmin(@RequestBody Administrativo administrativo) {
        List<Administrativo> administrativos = administrativoRepository.findAll();
        for (Administrativo other : administrativos) {
            if (other.getUsuario().equals(administrativo.getUsuario()) &&

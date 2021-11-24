@@ -3,7 +3,6 @@ package br.com.springboot.cadastro.model;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
@@ -36,10 +35,8 @@ public class Cadastro implements Serializable{
 	private String estado;
 	private String quantosmoram;
 
-	@NotNull
 	private Boolean estuda;
 
-	@NotNull
 	private Boolean casapropria;
 
 	@Column(unique=true)
