@@ -16,6 +16,11 @@ Após executar o comando acima, basta apenas abrir o seguinte endereço e visual
 http://localhost:8080/cadastro
 ```
 
+Para acessar a Documentação Swagger acesse:
+```
+http://localhost:8080/cadastro/swagger-ui.html
+```
+
 São necessários os seguintes pré-requisitos para a execução do projeto:
 
 * Java 8 ou versões superiores.
@@ -40,3 +45,4 @@ Abaixo, seguem links dos principais recursos usados no projeto.
 * [Referência para o padrão arquitetural REST](https://restfulapi.net/)
 * [Site oficial PostgreSQL](https://www.postgresql.org/)
 * [Bootstrap](https://getbootstrap.com/)
+* [Swagger IO Open Api](https://swagger.io/)
