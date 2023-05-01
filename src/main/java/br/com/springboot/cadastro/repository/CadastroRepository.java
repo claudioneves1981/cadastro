@@ -22,7 +22,7 @@ public interface CadastroRepository extends JpaRepository<Cadastro, Long> {
 	@Query(value = "select c from Cadastro c where upper(trim(c.nome)) like %?1%")
 	List<Cadastro> buscarPorNome(String name);
 	
-	@Query(value = "SELECT DISTINCT cidade FROM Cadastro ORDER BY cidade")
+	@Query(value = "SELECT DISTINCT c FROM Cadastro c ORDER BY c.cidade")
 	List<Cadastro> ordenarPorCidade();
 	
 	@Query(value = "SELECT COUNT(c) FROM Cadastro c WHERE upper(trim(c.nome)) like %?1%")

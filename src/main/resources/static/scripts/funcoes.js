@@ -315,7 +315,7 @@ function colocarEmEdicao(codigo){
 	  		success: function(response){
 	  			$('#selecionarCidade > option').remove();
 	  			for (var i = 0; i < response.length; i++){
-	 				$('#selecionarCidade').append('<option value="'+i+'">'+response[i]+'</option>');
+	 				$('#selecionarCidade').append('<option value="'+i+'">'+response[i].cidade+'</option>');
 	 			}
 	  		}
 	   }).fail(function(xhr,status,errorThrown){
@@ -349,7 +349,7 @@ function colocarEmEdicao(codigo){
    	   						'<td>'+response[i].endereco+'</td><td>'+response[i].numero+'</td>'+
    	   						'<td>'+response[i].bairro+'</td><td>'+response[i].cep+'</td>'+
    	   						'<td>'+response[i].cidade+'</td><td>'+response[i].telefone1+'</td>'+
-   	   						'<td><button type="button" class="input-block btn-secondary" onclick="colocarEmEdicao('+response[i].codigo+')">Ver</button></td>'+
+   	   						'<td><div><a class="nav input-block btn-secondary" href="#" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" role="tab" aria-controls="profile" aria-selected="true" onclick="colocarEmEdicao('+response[i].codigo+')">Editar</a></div></td>'+
    	   						'<td><button type="button" class="input-block btn-danger" onclick="deleteCadastro('+response[i].codigo+')">Delete</button></td>'+
    	   						'<td><button type="button" class="input-block btn-primary" onclick="CriaPDF('+response[i].codigo+')">Imprimir/PDF</button></td></tr>'
    	   					);
@@ -450,7 +450,7 @@ function colocarEmEdicao(codigo){
   						'<td>'+response[i].endereco+'</td><td>'+response[i].numero+'</td>'+
   						'<td>'+response[i].bairro+'</td><td>'+response[i].cep+'</td>'+
   						'<td>'+response[i].cidade+'</td><td>'+response[i].telefone1+'</td>'+
-  						'<td><button type="button" class="input-block btn-secondary" onclick="colocarEmEdicao('+response[i].codigo+')">Ver</button></td>'+
+                        '<td><div><a class="nav input-block btn-secondary" href="#" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" role="tab" aria-controls="profile" aria-selected="true" onclick="colocarEmEdicao('+response[i].codigo+')">Editar</a></div></td>'+
   						'<td><button type="button" class="input-block btn-danger" onclick="deleteCadastro('+response[i].codigo+')">Delete</button></td>'+
   						'<td><button type="button" class="input-block btn-primary" onclick="CriaPDF('+response[i].codigo+')">Imprimir/PDF</button></td></tr>'
   				);
@@ -492,7 +492,7 @@ function colocarEmEdicao(codigo){
 	       						'<td>'+response[i].endereco+'</td><td>'+response[i].numero+'</td>'+
 	       						'<td>'+response[i].bairro+'</td><td>'+response[i].cep+'</td>'+
 	       						'<td>'+response[i].cidade+'</td><td>'+response[i].telefone1+'</td>'+
-	       						'<td><button type="button" class="input-block btn-secondary" onclick="colocarEmEdicao('+response[i].codigo+')">Ver</button></td>'+
+                                '<td><div><a class="nav input-block btn-secondary" href="#" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" role="tab" aria-controls="profile" aria-selected="true" onclick="colocarEmEdicao('+response[i].codigo+')">Editar</a></div></td>'+
 	       						'<td><button type="button" class="input-block btn-danger" onclick="deleteCadastro('+response[i].codigo+')">Delete</button></td>'+
 	       						'<td><button type="button" class="input-block btn-primary" onclick="CriaPDF('+response[i].codigo+')">Imprimir/PDF</button></td></tr>'
 	       				);
