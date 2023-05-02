@@ -3,6 +3,8 @@ package br.com.springboot.cadastro.model;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -26,6 +28,11 @@ public class Administrativo implements Serializable{
 	private String senha;
 
 	private Boolean administrativo;
+
+	@ElementCollection(fetch = FetchType.EAGER)
+	@CollectionTable(name= "tab_user_roles",joinColumns = @JoinColumn(name = "user_id"))
+	@Column(name = "role_id")
+	private List<String> roles = new ArrayList<>();
 
 }
 	

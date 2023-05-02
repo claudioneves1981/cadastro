@@ -27,12 +27,11 @@ public class Cadastro implements Serializable{
 	private String idade;
 	private String telefone1;
 	private String telefone2;
-	private String endereco;
+
+	@ManyToOne
+	private Endereco endereco;
+
 	private String numero;
-	private String bairro;
-	private String cep;
-	private String cidade;
-	private String estado;
 	private String quantosmoram;
 
 	private Boolean estuda;

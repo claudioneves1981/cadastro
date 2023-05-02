@@ -34,11 +34,11 @@ public class TabelaUtil {
             tabela.addCell(value.getNome());
             tabela.addCell(String.valueOf(value.getDatanasc()));
             tabela.addCell(value.getIdade());
-            tabela.addCell(value.getEndereco());
+            tabela.addCell(value.getEndereco().getLogradouro());
             tabela.addCell(value.getNumero());
-            tabela.addCell(value.getBairro());
-            tabela.addCell(value.getCep());
-            tabela.addCell(value.getCidade());
+            tabela.addCell(value.getEndereco().getBairro());
+            tabela.addCell(value.getEndereco().getCep());
+            tabela.addCell(value.getEndereco().getLocalidade());
             tabela.addCell(value.getTelefone1());
             tabela.addCell(value.getTelefone2());
             tabela.addCell(value.getQuantosmoram());

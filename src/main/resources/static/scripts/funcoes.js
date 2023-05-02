@@ -20,8 +20,7 @@
 
                   $.ajax({
         	    		method: "GET",
-        	    		url: "gerandopdf",
-        	    		data : "name=" + nome ,
+        	    		url: "gerandopdf/"+nome,
         	    		success: function(response){
         	    		    $('.alert').removeClass("hide");
                             $('.alert').addClass("show");
@@ -78,20 +77,19 @@
    	
     	$.ajax({
    		    method: "GET",
-   		    url: "cadastrobuscaruserid",
-   		    data : "iduser=" + codigo,
+   		    url: "cadastro/imprimirregistro/"+codigo
    		    success: function(response){
 
    		         $("#codigo").val(response.codigo);
 			     $("#nome").val(response.nome);
   			     $("#datanasc").val(response.datanasc);
   			     $("#idade").val(response.idade);
-			     $("#endereco").val(response.endereco);
+			     $("#endereco").val(response.endereco.logradouro);
 			     $("#numero").val(response.numero);
-			     $("#bairro").val(response.bairro);
-			     $("#cep").val(response.cep);
-			     $("#cidade").val(response.cidade);
-			     $("#estado").val(response.estado);
+			     $("#bairro").val(response.endereco.bairro);
+			     $("#cep").val(response.endereco.cep);
+			     $("#cidade").val(response.endereco.localidade);
+			     $("#estado").val(response.endereco.uf);
 			     $("#telefone1").val(response.telefone1);
 			     $("#telefone2").val(response.telefone2);
 			     $("#quantosmoram").val(response.quantosmoram);
@@ -161,8 +159,7 @@
    	
    	        $.ajax({
 	    		method: "DELETE",
-	    		url: "cadastrodelete",
-	    		data : "iduser=" + codigo,
+	    		url: "cadastro/"+codigo,
 	    		success: function(response){
 	    			$('#'+codigo).remove();
 	    			$('.alert').removeClass("hide");
@@ -201,8 +198,7 @@
    	
    	        $.ajax({
 	    		method: "DELETE",
-	    		url: "administrativodelete",
-	    		data : "iduser=" + codigo,
+	    		url: "administrativo/"+codigo,
 	    		success: function(response){
 	    			$('#'+codigo).remove();
 	    			$('.alert').removeClass("hide");
@@ -231,8 +227,7 @@ function colocarEmEdicaoAdm(codigo){
 		
    	$.ajax({
 	    		method: "GET",
-	    		url: "administrativobuscaruserid",
-	    		data : "iduser=" + codigo,
+	    		url: "administrativo/"+codigo,
 	    		success: function(response){
 	    		    $("#idadm").val(response.codigo);
    				    $("#nomeusuario").val(response.nome);
@@ -271,19 +266,18 @@ function colocarEmEdicao(codigo){
 		
    	$.ajax({
 	    		method: "GET",
-	    		url: "cadastrobuscaruserid",
-	    		data : "iduser=" + codigo,
+	    		url: "cadastro/"+codigo,
 	    		success: function(response){
 	    		    $("#codigo").val(response.codigo);
    				    $("#nome").val(response.nome);
 	   			    $("#datanasc").val(response.datanasc);
 	   			    $("#idade").val(response.idade);
-				    $("#endereco").val(response.endereco);
+				    $("#endereco").val(response.endereco.logradouro);
 				    $("#numero").val(response.numero);
-				    $("#bairro").val(response.bairro);
-				    $("#cep").val(response.cep);
-				    $("#cidade").val(response.cidade);
-				    $("#estado").val(response.estado);
+				    $("#bairro").val(response.endereco.bairro);
+				    $("#cep").val(response.endereco.cep);
+				    $("#cidade").val(response.endereco.localidade);
+				    $("#estado").val(response.endereco.uf);
 				    $("#telefone1").val(response.telefone1);
 				    $("#telefone2").val(response.telefone2);
 				    $("#quantosmoram").val(response.quantosmoram);
@@ -307,38 +301,13 @@ function colocarEmEdicao(codigo){
    	$('#myTab li:nth-child(3) button').tab('show');
 }
 
-  function ordenarPorCidade(){
-   	   	
-	   $.ajax({
-	  		method: "GET",
-	  		url: "ordenarporcidade",
-	  		success: function(response){
-	  			$('#selecionarCidade > option').remove();
-	  			for (var i = 0; i < response.length; i++){
-	 				$('#selecionarCidade').append('<option value="'+i+'">'+response[i].cidade+'</option>');
-	 			}
-	  		}
-	   }).fail(function(xhr,status,errorThrown){
-	    $('.alert').removeClass("hide");
-        $('.alert').addClass("show");
-        $('.alert').addClass("showAlert");
-        $('.msg').text("Erro ao buscar cidade:" + xhr.responseText);
-        setTimeout(function(){
-                   $('.alert').addClass("hide");
-                   $('.alert').removeClass("show");
-        },5000);
-	   });
-   	
-  }
-
    function pesquisarCadastro(){
        	
  	      var nome = $('#cadastroBusca').val();
  	  
  		  $.ajax({
  	    		method: "GET",
- 	    		url: "buscarporcadastro",
- 	    		data : "name=" + nome ,
+ 	    		url: "cadastro/"+nome,
  	    		success: function(response){
  	    			$('#tabelaresultados > tbody > tr').remove();
  	    			for (var i = 0; i < response.length; i++){
@@ -346,9 +315,9 @@ function colocarEmEdicao(codigo){
    	   						'<td><div class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" id="'+response[i].codigo+'"></div>'+response[i].codigo+'</td>'+ 
    	   						'<td>'+response[i].nome+'</td>'+
    	   						'<td>'+response[i].datanasc+'</td><td>'+response[i].idade+'</td>'+
-   	   						'<td>'+response[i].endereco+'</td><td>'+response[i].numero+'</td>'+
-   	   						'<td>'+response[i].bairro+'</td><td>'+response[i].cep+'</td>'+
-   	   						'<td>'+response[i].cidade+'</td><td>'+response[i].telefone1+'</td>'+
+   	   						'<td>'+response[i].endereco.logradouro+'</td><td>'+response[i].numero+'</td>'+
+   	   						'<td>'+response[i].endereco.bairro+'</td><td>'+response[i].endereco.cep+'</td>'+
+   	   						'<td>'+response[i].endereco.localidade+'</td><td>'+response[i].telefone1+'</td>'+
    	   						'<td><div><a class="nav input-block btn-secondary" href="#" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" role="tab" aria-controls="profile" aria-selected="true" onclick="colocarEmEdicao('+response[i].codigo+')">Editar</a></div></td>'+
    	   						'<td><button type="button" class="input-block btn-danger" onclick="deleteCadastro('+response[i].codigo+')">Delete</button></td>'+
    	   						'<td><button type="button" class="input-block btn-primary" onclick="CriaPDF('+response[i].codigo+')">Imprimir/PDF</button></td></tr>'
@@ -376,8 +345,7 @@ function colocarEmEdicao(codigo){
    	      var resposta = "";
    		  $.ajax({
    	    		method: "GET",
-   	    		url: "buscarporadministrativo",
-   	    		data : "name=" + nome ,
+   	    		url: "administrativo/"+nome
    	    		success: function(response){
    	    			$('#tabelaadministrativo > tbody > tr').remove();
    	    			for (var i = 0; i < response.length; i++){
@@ -412,108 +380,7 @@ function colocarEmEdicao(codigo){
    	      });
        
    }
-   
-   function selecionaCidade(){
-   	
-   	ordenarPorCidade();
-   	
-   	$("#selecionarCidade").click(function () {
- 	        $("#selecionarCidade").each(function () {
- 	          $(this).find("option").each(function () {
- 	            if ($(this).attr("selected")) {
-					 var cidade = $(this).text();
-					 pesquisarNomes(cidade);
- 	             $(this).removeAttr("selected");
- 	            }
- 	          });
- 	        });
- 	        $("#selecionarCidade").find("option:selected").attr("selected", true);
- 	})	
- 	
-   }
-   
-  function pesquisarSomentePeloNome(){
-	   
-	   var nome = $('#nomeBusca').val();
 
-	   $.ajax({
-  		method: "GET",
-  		url: "buscarporcadastro",
-  		data :"name="+nome,
-  		success: function(response){
-  			$('#tabelaresultados > tbody > tr').remove();
-  			for (var i = 0; i < response.length; i++){
- 				$('#tabelaresultados > tbody').append('<tr id="'+response[i].codigo+'">'+
-  						'<td><div class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" id="'+response[i].codigo+'"></div>'+response[i].codigo+'</td>'+ 
-  						'<td>'+response[i].nome+'</td>'+
-  						'<td>'+response[i].datanasc+'</td><td>'+response[i].idade+'</td>'+
-  						'<td>'+response[i].endereco+'</td><td>'+response[i].numero+'</td>'+
-  						'<td>'+response[i].bairro+'</td><td>'+response[i].cep+'</td>'+
-  						'<td>'+response[i].cidade+'</td><td>'+response[i].telefone1+'</td>'+
-                        '<td><div><a class="nav input-block btn-secondary" href="#" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" role="tab" aria-controls="profile" aria-selected="true" onclick="colocarEmEdicao('+response[i].codigo+')">Editar</a></div></td>'+
-  						'<td><button type="button" class="input-block btn-danger" onclick="deleteCadastro('+response[i].codigo+')">Delete</button></td>'+
-  						'<td><button type="button" class="input-block btn-primary" onclick="CriaPDF('+response[i].codigo+')">Imprimir/PDF</button></td></tr>'
-  				);
-   			}
- 			$('#quantidade').remove();
- 			$('#registrosencontrados').append('<label id = "quantidade">'+response.length+'</label>');
-  		}
-  	}).fail(function(xhr,status,errorThrown){
-  	    $('.alert').removeClass("hide");
-        $('.alert').addClass("show");
-        $('.alert').addClass("showAlert");
-        $('.msg').text("Erro ao buscar usuario :" + xhr.responseText);
-        setTimeout(function(){
-                   $('.alert').addClass("hide");
-                   $('.alert').removeClass("show");
-        },5000);
-  	});
-		
-  }
-   
-   function pesquisarNomes(cidade){
-   	
-   	var nome = $('#nomeBusca').val();
-   	
-   	if(nome !="" && cidade !=""){
-   		
-   		$.ajax({
-	    		method: "GET",
-	    		url: "cadastrobuscarporparametros",
-	    		data :"name="+nome+"&cidade="+cidade,
-	    		contentType: "application/json; charset=utf-8",
-	    		success: function(response){
-	    			$('#tabelaresultados > tbody > tr').remove();
-	    			for (var i = 0; i < response.length; i++){
-	    				$('#tabelaresultados > tbody').append('<tr id="'+response[i].codigo+'">'+
-	       						'<td><div class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" id="'+response[i].codigo+'"></div>'+response[i].codigo+'</td>'+ 
-	       						'<td>'+response[i].nome+'</td>'+
-	       						'<td>'+response[i].datanasc+'</td><td>'+response[i].idade+'</td>'+
-	       						'<td>'+response[i].endereco+'</td><td>'+response[i].numero+'</td>'+
-	       						'<td>'+response[i].bairro+'</td><td>'+response[i].cep+'</td>'+
-	       						'<td>'+response[i].cidade+'</td><td>'+response[i].telefone1+'</td>'+
-                                '<td><div><a class="nav input-block btn-secondary" href="#" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" role="tab" aria-controls="profile" aria-selected="true" onclick="colocarEmEdicao('+response[i].codigo+')">Editar</a></div></td>'+
-	       						'<td><button type="button" class="input-block btn-danger" onclick="deleteCadastro('+response[i].codigo+')">Delete</button></td>'+
-	       						'<td><button type="button" class="input-block btn-primary" onclick="CriaPDF('+response[i].codigo+')">Imprimir/PDF</button></td></tr>'
-	       				);
-	        		}
-	    			$('#quantidade').remove();
-	    			$('#registrosencontrados').append('<label id = "quantidade">'+response.length+'</label>');
-	    		}
-	    }).fail(function(xhr,status,errorThrown){
-	         $('.alert').removeClass("hide");
-             $('.alert').addClass("show");
-             $('.alert').addClass("showAlert");
-             $('.msg').text("Erro ao buscar usuario:" + xhr.responseText);
-             setTimeout(function(){
-                $('.alert').addClass("hide");
-                $('.alert').removeClass("show");
-             },5000);
-	    });
-   		
-    }
-     
-  }
 
  function salvarUsuario(){
    	
@@ -521,12 +388,12 @@ function colocarEmEdicao(codigo){
    	    var nome = $("#nome").val();
 	   	var datanasc = $("#datanasc").val();
 	   	var idade = $("#idade").val();
-		var endereco = $("#endereco").val();
+		var logradouro = $("#endereco").val();
 		var numero = $("#numero").val();
 		var bairro = $("#bairro").val();
 		var cep = $("#cep").val();
-		var cidade = $("#cidade").val();
-		var estado = $("#estado").val();
+		var localidade = $("#cidade").val();
+		var uf = $("#estado").val();
 		var telefone1 = $("#telefone1").val();
 		var telefone2 = $("#telefone2").val();
 		var quantosmoram = $("#quantosmoram").val();
@@ -556,13 +423,33 @@ function colocarEmEdicao(codigo){
    		alert('informe a data de nascimento');
    		return;
    	}
-   	
+
+   	if(codigo == "" || codigo == null){
    	$.ajax({
    		method: "POST",
-   		url: "cadastrosalvar",
-   		data : JSON.stringify({codigo: codigo, nome : nome, datanasc : datanasc, idade : idade, endereco : endereco, numero : numero, bairro : bairro, cep : cep, cidade : cidade, estado : estado, telefone1 : telefone1, telefone2: telefone2, estuda : estuda, quantosmoram : quantosmoram, casapropria : casapropria, numeronis : numeronis}),
-   		contentType: "application/json; charset=utf-8",
-   		success: function(response){    		
+   		url: "cadastro/salvar",
+        data : JSON.stringify(
+           		    {
+           		    nome : nome,
+           	        datanasc : datanasc,
+           		    idade : idade,
+           		    numero : numero,
+           		    endereco : {
+           		        logradouro: logradouro,
+           		        bairro : bairro,
+           		        cep : cep,
+           		        localidade : localidade,
+           		        uf : uf
+           		 },
+           		 telefone1 : telefone1,
+           		 telefone2: telefone2,
+           		 estuda : estuda,
+           		 quantosmoram : quantosmoram,
+           		 casapropria : casapropria,
+           		 numeronis : numeronis
+           		 }),
+        contentType: "application/json; charset=utf-8",
+   		success: function(response){
    
    		    var resposta = confirm("Você Deseja cadastrar esse registro?");
    			if (resposta == true){
@@ -596,12 +483,74 @@ function colocarEmEdicao(codigo){
                 $('.alert').removeClass("show");
      },5000);
    	});
+   	}else{
+
+ 	$.ajax({
+           		method: "PUT",
+           		url: "cadastro/"+codigo,
+           		data : JSON.stringify(
+           		    {
+           		    nome : nome,
+           	        datanasc : datanasc,
+           		    idade : idade,
+           		    numero : numero,
+           		    endereco : {
+           		        logradouro: logradouro,
+           		        bairro : bairro,
+           		        cep : cep,
+           		        localidade : localidade,
+           		        uf : uf
+           		 },
+           		 telefone1 : telefone1,
+           		 telefone2: telefone2,
+           		 estuda : estuda,
+           		 quantosmoram : quantosmoram,
+           		 casapropria : casapropria,
+           		 numeronis : numeronis
+           		 }),
+           		contentType: "application/json; charset=utf-8",
+           		success: function(response){
+
+           		    var resposta = confirm("Você Deseja cadastrar esse registro?");
+           			if (resposta == true){
+           			$("#codigo").val(response.codigo);
+           			 $('.alert').removeClass("hide");
+                     $('.alert').addClass("show");
+                     $('.alert').addClass("showAlert");
+                     $('.msg').text(response);
+                     setTimeout(function(){
+                              $('.alert').addClass("hide");
+                              $('.alert').removeClass("show");
+                     },5000);
+           			}else{
+           			 $('.alert').removeClass("hide");
+                     $('.alert').addClass("show");
+                     $('.alert').addClass("showAlert");
+                     $('.msg').text("Operação cancelada:");
+                     setTimeout(function(){
+                               $('.alert').addClass("hide");
+                               $('.alert').removeClass("show");
+                     },5000);
+           			}
+            	}
+           	}).fail(function(xhr,status,errorThrown){
+           	 $('.alert').removeClass("hide");
+             $('.alert').addClass("show");
+             $('.alert').addClass("showAlert");
+             $('.msg').text("Erro ao salvar:");
+             setTimeout(function(){
+                        $('.alert').addClass("hide");
+                        $('.alert').removeClass("show");
+             },5000);
+           	});
+   	}
    	
 
  }
   function salvarAdministrativo(){
 
        	   // var nome = $("#nomeCad").val();
+       	   	var codigo =  $("#idadm").val();
        	    var nome = $('input:text[name=nomeCad]').val();
        	    var usuario = $('input:text[name=usuarioCad]').val();
        	    //var usuario = $("#usuarioCad").val();
@@ -672,11 +621,70 @@ function colocarEmEdicao(codigo){
 
  				},5000);
 
+ 			}else if(codigo != "" || codigo != null){
+
+ 			$.ajax({
+                   		        method: "PUT",
+                   		        url: "administrativo/"+codigo,
+                   		        data : JSON.stringify({nome : nome, usuario : usuario, senha : senha, administrativo : administrativo}),
+                   		        contentType: "application/json; charset=utf-8",
+                   		        success: function(response){
+
+                   		            var resposta = confirm("Você Deseja cadastrar esse Usuario?");
+                   			        if (resposta == true){
+                   			          $('.alert').removeClass("hide");
+             				          $('.alert').addClass("show");
+             				          $('.alert').addClass("showAlert");
+             				          $('.msg').text(response);
+             				          setTimeout(function(){
+                             					$('.alert').addClass("hide");
+                             					$('.alert').removeClass("show");
+
+                                     },5000);
+                                     //window.location.href = "index.html";
+
+                   			        }else{
+                   			        $('.alert').removeClass("hide");
+             				        $('.alert').addClass("show");
+             				        $('.alert').addClass("showAlert");
+             				        $('.msg').text('Operação Cancelada ');
+             				            setTimeout(function(){
+                             					$('.alert').addClass("hide");
+                             					$('.alert').removeClass("show");
+
+                                        },5000);
+
+                   			        }
+
+
+                    	        }
+                   	        }).fail(function(xhr,status,errorThrown){
+                   	        $('.alert').removeClass("hide");
+             				$('.alert').addClass("show");
+             				$('.alert').addClass("showAlert");
+             				$('.msg').text('Erro ao salvar ');
+             				    setTimeout(function(){
+                             					$('.alert').addClass("hide");
+                             					$('.alert').removeClass("show");
+
+                                },5000);
+                   	        });
+                   	    }
+
+                   	$('.close-btn').click(function(){
+
+             			$('.alert').addClass("hide");
+             			$('.alert').removeClass("show");
+
+
+             		});
+
+
  			}else{
 
             	$.ajax({
        		        method: "POST",
-       		        url: "administrativosalvar",
+       		        url: "administrativo/salvar",
        		        data : JSON.stringify({nome : nome, usuario : usuario, senha : senha, administrativo : administrativo}),
        		        contentType: "application/json; charset=utf-8",
        		        success: function(response){

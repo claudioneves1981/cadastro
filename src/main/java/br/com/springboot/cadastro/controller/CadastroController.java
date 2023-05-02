@@ -4,7 +4,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Optional;
 
+import br.com.springboot.cadastro.model.Endereco;
+import br.com.springboot.cadastro.repository.EnderecoRepository;
+import br.com.springboot.cadastro.service.ViaCepService;
+import br.com.springboot.cadastro.utils.PdfUtil;
 import br.com.springboot.cadastro.utils.TabelaUtil;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -14,14 +19,7 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import br.com.springboot.cadastro.model.Cadastro;
 import br.com.springboot.cadastro.repository.CadastroRepository;
 
@@ -34,12 +32,18 @@ public class CadastroController {
 	
 	@Autowired
 	private CadastroRepository cadastroRepository;
+
+    @Autowired
+    private EnderecoRepository enderecoRepository;
+
+    @Autowired
+    private ViaCepService viaCepService;
     /**
      *
      * @return greeting text
      */
     
-    @GetMapping(value = "cadastrolistatodos")
+    @GetMapping(value = "cadastro/listatodos")
     @ResponseBody
     public ResponseEntity<List<Cadastro>> listaUsuario() {
     	List<Cadastro> cadastro = cadastroRepository.findAll();
@@ -47,7 +51,7 @@ public class CadastroController {
                 .body(cadastro);
     }
     
-   @PostMapping(value = "cadastrosalvar")
+   @PostMapping(value = "cadastro/salvar")
    @ResponseBody
     public ResponseEntity<String> salvar(@RequestBody Cadastro cadastro){
        List<Cadastro> cadastros = cadastroRepository.findAll();
@@ -62,155 +66,65 @@ public class CadastroController {
                .body("Cadastro Salvo com Sucesso!!!");
     }
    
-   @DeleteMapping(value = "cadastrodelete")
+   @DeleteMapping(value = "cadastro/{iduser}")
    @ResponseBody
-    public ResponseEntity<String> delete(@RequestParam Long iduser){
+    public void delete(@PathVariable Long iduser){
     	cadastroRepository.deleteById(iduser);
-       return ResponseEntity.ok()
-               .body("Usuario deletado com sucesso");
-    }
-   
-   @GetMapping(value = "cadastrobuscaruserid")
-   @ResponseBody
-    public ResponseEntity<Cadastro> buscaruserId(@RequestParam(name = "iduser") Long iduser) throws DocumentException, IOException {
-       Document documento = new Document();
-       Cadastro cadastro = cadastroRepository.findById(iduser).get();
-       //Properties properties = System.getProperties();
-       String so = String.valueOf(System.getProperty("os.name"));
-       String variavelDeAmbiente = "";
-       String arquivo = "";
-
-       if (so.contains("Windows")){
-           variavelDeAmbiente = System.getenv("USERPROFILE");
-           arquivo = variavelDeAmbiente+"/Documents/Pis_"+ cadastro.getNumeronis()+".pdf";
-       }else{
-           variavelDeAmbiente = System.getenv("HOME");
-           arquivo = variavelDeAmbiente+"/Documentos/Pis_"+ cadastro.getNumeronis()+".pdf";
-       }
-
-
-       PdfWriter.getInstance(documento, new FileOutputStream(arquivo));
-       documento.open();
-       documento.addHeader("Content-Disposition", "attachment; filename=Pis_"+ cadastro.getNumeronis()+".pdf");
-       documento.add(new Paragraph("Dados Pessoais"));
-       documento.add(new Paragraph(" "));
-       documento.add(new Paragraph("ID:  "+cadastro.getCodigo()));
-       documento.add(new Paragraph("Nome:  "+cadastro.getNome()));
-       documento.add(new Paragraph("Data Nascimento:  "+cadastro.getDatanasc()));
-       documento.add(new Paragraph("Idade:  "+cadastro.getIdade()));
-       documento.add(new Paragraph(" "));
-       documento.add(new Paragraph("Endereco"));
-       documento.add(new Paragraph("Endereco:  "+cadastro.getEndereco()+" Nº"+cadastro.getNumero()));
-       documento.add(new Paragraph("Bairro:  "+cadastro.getBairro()+" CEP"+cadastro.getCep()));
-       documento.add(new Paragraph("Cidade:  "+cadastro.getCidade()+" Estado"+cadastro.getEstado()));
-       documento.add(new Paragraph("Telefone 1:  "+cadastro.getTelefone1()));
-       documento.add(new Paragraph("Telefone 2:  "+cadastro.getTelefone2()));
-       documento.add(new Paragraph(" "));
-       documento.add(new Paragraph("Outros"));
-       String estuda;
-       if (!cadastro.getEstuda()){
-          estuda = "Não";
-       }else{
-           estuda = "Sim";
-       }
-       documento.add(new Paragraph("Estuda: "+estuda));
-       documento.add(new Paragraph("Quantos Moram?: "+cadastro.getQuantosmoram()));
-       String casapropria;
-       if (!cadastro.getCasapropria()){
-           casapropria = "Não";
-       }else{
-           casapropria = "Sim";
-       }
-       documento.add(new Paragraph("Casa Propria: " +casapropria));
-       documento.add(new Paragraph("Numero Nis: "+cadastro.getNumeronis()));
-       documento.close();
-
-       if (so.contains("Windows")){
-           Runtime.getRuntime().exec("cmd /c \""+arquivo+"\"");
-       }else{
-           Runtime.getRuntime().exec("firefox "+arquivo);
-       }
-
-       return ResponseEntity.ok()
-               .body(cadastro);
-   }
-   
-   @PutMapping(value = "cadastroatualizar")
-   @ResponseBody
-    public ResponseEntity<String> buscaruserId(@RequestBody Cadastro cadastro){
-    	
-	   if(cadastro.getCodigo() == null) {
-           return ResponseEntity.ok()
-                   .body("Codigo de Cadastro não foi informado para atualização");
-	   }
-	   
-	   cadastroRepository.saveAndFlush(cadastro);
-       return ResponseEntity.ok()
-               .body("Cadastro Atualizado com sucesso!!!");
     }
 
-    @GetMapping(value="buscarporcadastro")
+    @GetMapping(value = "cadastro/imprimirregistro/{iduser}")
     @ResponseBody
-    public ResponseEntity<List<Cadastro>> buscarPorCadastro(@RequestParam(name = "name") String name){
-        List<Cadastro> cadastro = cadastroRepository.buscarPorCadastro(name.trim().toUpperCase());
+    public ResponseEntity<Cadastro> imprimir(@PathVariable Long iduser) throws DocumentException, IOException{
+        Cadastro cadastro = cadastroRepository.findById(iduser).get();
+        PdfUtil.imprimeRegistro(cadastro);
         return ResponseEntity.ok()
                 .body(cadastro);
     }
 
-    @GetMapping(value = "gerandopdf")
+    @GetMapping(value = "cadastro/{iduser}")
     @ResponseBody
-    public ResponseEntity<List<Cadastro>> gerandoPdf(@RequestParam(name = "name") String name) throws IOException, DocumentException{
-       Document documento = new Document(PageSize.A4.rotate());
-       List<Cadastro> cadastro = cadastroRepository.buscarPorNome(name.trim().toUpperCase());
-       float tableWidth = 100f;
-       float [] colWidths = {4,15,10,4,10,5,7,9,9,13,13,11,3,3,13};
-        String so = String.valueOf(System.getProperty("os.name"));
-        String variavelDeAmbiente = "";
-        String arquivo = "";
+    public ResponseEntity<Cadastro> buscaruserId(@PathVariable Long iduser) {
+        Cadastro cadastro = cadastroRepository.findById(iduser).get();
+        return ResponseEntity.ok()
+                .body(cadastro);
 
-        if (so.contains("Windows")){
-            variavelDeAmbiente = System.getenv("USERPROFILE");
-            arquivo = variavelDeAmbiente+"/Documents/relatorio.pdf";
-        }else{
-            variavelDeAmbiente = System.getenv("HOME");
-            arquivo = variavelDeAmbiente+"/Documentos/relatorio.pdf";
-        }
-
-       PdfWriter.getInstance(documento, new FileOutputStream(arquivo));
-       documento.open();
-       documento.addHeader("Content-Disposition", "attachment; filename=relatorio.pdf");
-       documento.add(new Paragraph("Lista de Familias:"));
-       PdfPTable tabela = new PdfPTable(colWidths);
-       tabela.setWidthPercentage(tableWidth);
-       documento.add(new Paragraph(" "));
-       TabelaUtil.fillTable(tabela, cadastro);
-       documento.add(tabela);
-       documento.close();
-
-        if (so.contains("Windows")){
-            Runtime.getRuntime().exec("cmd /c \""+arquivo+"\"");
-        }else{
-            Runtime.getRuntime().exec("firefox "+arquivo);
-        }
-
-       return ResponseEntity.ok()
-               .body(cadastro);
-   }
+    }
    
-   @GetMapping(value = "ordenarporcidade")
+   @PutMapping(value = "cadastro/{iduser}")
    @ResponseBody
-   public ResponseEntity<List<Cadastro>> ordenarPorCidade(){
-   	List<Cadastro> cadastro = cadastroRepository.ordenarPorCidade();
+    public void cadastroAtualizar(@PathVariable Long iduser, @RequestBody Cadastro cadastro){
+       Optional<Cadastro> cadastroBd = cadastroRepository.findById(iduser);
+       if(cadastroBd.isPresent()) {
+           salvarClienteComCep(cadastro);
+       }
+    }
+
+    @GetMapping(value="cadastro/{nome}")
+    @ResponseBody
+    public ResponseEntity<Cadastro> buscarPorCadastro(@PathVariable String nome){
+        Cadastro cadastro = cadastroRepository.buscarPorNome(nome);
+        return ResponseEntity.ok()
+                .body(cadastro);
+    }
+
+    @GetMapping(value = "gerandopdf/{nome}")
+    @ResponseBody
+    public ResponseEntity<List<Cadastro>> gerandoPdf(@PathVariable String nome) throws IOException, DocumentException{
+       List <Cadastro> cadastro = cadastroRepository.buscarPorCadastro(nome.trim().toUpperCase());
+       PdfUtil.gerarRelatorio(cadastro);
        return ResponseEntity.ok()
                .body(cadastro);
    }
-   
-   @GetMapping(value = "cadastrobuscarporparametros")
-   @ResponseBody
-   public ResponseEntity<List<Cadastro>> buscaPorParametros(@RequestParam(name= "name") String name, @RequestParam(name = "cidade") String cidade){
-   	List<Cadastro> cadastro = cadastroRepository.buscaPorParametros(name.trim().toUpperCase(), cidade);
-       return ResponseEntity.ok()
-               .body(cadastro);
-   }
+
+    private void salvarClienteComCep(Cadastro cadastro){
+        String cep = cadastro.getEndereco().getCep();
+        Endereco endereco =  enderecoRepository.findById(cep).orElseGet(()->{
+            Endereco novoEndereco = viaCepService.consultarCep(cep);
+            enderecoRepository.save(novoEndereco);
+            return novoEndereco;
+        });
+        cadastro.setEndereco(endereco);
+        cadastroRepository.save(cadastro);
+    }
    
 }

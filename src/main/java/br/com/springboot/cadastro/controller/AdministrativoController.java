@@ -1,18 +1,13 @@
 package br.com.springboot.cadastro.controller;
 
 import java.util.List;
+import java.util.Optional;
 
+import br.com.springboot.cadastro.model.Cadastro;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import br.com.springboot.cadastro.model.Administrativo;
 import br.com.springboot.cadastro.repository.AdministrativoRepository;
 
@@ -31,7 +26,7 @@ public class AdministrativoController {
      * @return greeting text
      */
     
-    @GetMapping(value = "administrativolistatodos")
+    @GetMapping(value = "administrativo/listatodos")
     @ResponseBody
     public ResponseEntity<List<Administrativo>> listaUsuario(){
     	List<Administrativo> administrativos = administrativoRepository.findAll();
@@ -39,7 +34,7 @@ public class AdministrativoController {
                 .body(administrativos);
     }
     
-   @PostMapping(value = "administrativosalvar")
+   @PostMapping(value = "administrativo/salvar")
    @ResponseBody
    public ResponseEntity<String> salvar(@RequestBody Administrativo administrativo) {
        List<Administrativo> administrativos = administrativoRepository.findAll();
@@ -54,85 +49,35 @@ public class AdministrativoController {
                .body("Cadastro Salvo com Sucesso!!!");
    }
    
-   @DeleteMapping(value = "administrativodelete")
+   @DeleteMapping(value = "administrativo/{iduser}")
    @ResponseBody
-    public ResponseEntity<String> delete(@RequestParam Long iduser){
+    public void delete(@PathVariable Long iduser){
     	administrativoRepository.deleteById(iduser);
-       return ResponseEntity.ok()
-               .body("Usuario deletado com sucesso");
     }
    
-   @GetMapping(value = "administrativobuscaruserid")
+   @GetMapping(value = "administrativo/{iduser}")
    @ResponseBody
-    public ResponseEntity<Administrativo> buscaruserId(@RequestParam(name = "iduser") Long iduser){
+    public ResponseEntity<Administrativo> buscaruserId(@PathVariable Long iduser){
     	Administrativo administrativo = administrativoRepository.findById(iduser).get();
-
        return ResponseEntity.ok()
                .body(administrativo);
     }
    
-   @PutMapping(value = "administrativoatualizar")
+   @PutMapping(value = "administrativo/{iduser}")
    @ResponseBody
-    public ResponseEntity<?> buscaruserId(@RequestBody Administrativo administrativo){
-    	
-	   if(administrativo.getCodigo() == null) {
-           return ResponseEntity.ok()
-                   .body("Codigo de Administrativo não foi informado para atualização");
-	   }
-	   
-	   Administrativo user = administrativoRepository.saveAndFlush(administrativo);
-
-       return ResponseEntity.ok()
-               .body(user);
+    public void administrativoAtualizar(@PathVariable Long iduser, @RequestBody Administrativo administrativo){
+       Optional<Administrativo> administrativoBd = administrativoRepository.findById(iduser);
+       if(administrativoBd.isPresent()) {
+           administrativoRepository.save(administrativo);
+       }
     }
    
-   @GetMapping(value = "administrativobuscarpornome")
+   @GetMapping(value = "administrativo/{usuario}")
    @ResponseBody
-    public ResponseEntity<List<Administrativo>> buscarPorNome(@RequestParam(name = "name") String name){
-    	List<Administrativo> administrativo = administrativoRepository.buscarPorNome(name.trim().toUpperCase());
+    public ResponseEntity<Administrativo> buscarPorUsuario(@PathVariable String usuario){
+    	Administrativo administrativo = administrativoRepository.findByUsuario(usuario);
         return ResponseEntity.ok()
                .body(administrativo);
     }
-   
-   @GetMapping(value = "buscarporadministrativo")
-   @ResponseBody
-   public ResponseEntity<List<Administrativo>> buscarPorAdministrativo(@RequestParam(name = "name") String name){
-   	List<Administrativo> administrativo = administrativoRepository.buscarPorAdministrativo(name.trim().toUpperCase());
-       return ResponseEntity.ok()
-               .body(administrativo);
-   }
-   
-   @PostMapping(value = "login")
-   @ResponseBody
-   public ResponseEntity<Boolean> loginUser(@RequestBody Administrativo administrativo) {
-       List<Administrativo> administrativos = administrativoRepository.findAll();
-       for (Administrativo other : administrativos) {
-           if (other.getUsuario().equals(administrativo.getUsuario()) &&
-                   other.getSenha().equals(administrativo.getSenha()) &&
-                   other.getAdministrativo().equals(administrativo.getAdministrativo())) {
-               return ResponseEntity.ok()
-                       .body(true);
-           }
-       }
-       return ResponseEntity.ok()
-               .body(false);
-   }
-   
-   @PostMapping(value = "loginadmin")
-   @ResponseBody
-   public ResponseEntity<Boolean> loginAdmin(@RequestBody Administrativo administrativo) {
-       List<Administrativo> administrativos = administrativoRepository.findAll();
-       for (Administrativo other : administrativos) {
-           if (other.getUsuario().equals(administrativo.getUsuario()) &&
-                   other.getSenha().equals(administrativo.getSenha()) &&
-                   other.getAdministrativo().equals(administrativo.getAdministrativo())) {
-               return ResponseEntity.ok()
-                       .body(true);
-           }
-       }
-       return ResponseEntity.ok()
-               .body(false);
-   }
-   
    
 }
