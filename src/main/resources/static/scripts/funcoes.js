@@ -382,6 +382,36 @@ function colocarEmEdicao(codigo){
    }
 
 
+   function consultarCep(){
+
+    var cep = $("#cep").val();
+
+   	$.ajax({
+   	    		method: "GET",
+   	    		url: cep+"/json",
+   	    		success: function(response){
+   				    $("#endereco").val(response.endereco.logradouro);
+   				    $("#numero").val(response.numero);
+   				    $("#bairro").val(response.endereco.bairro);
+   				    $("#cidade").val(response.endereco.localidade);
+   				    $("#estado").val(response.endereco.uf);
+                   }
+
+
+   	}).fail(function(xhr,status,errorThrown){
+   	 $('.alert').removeClass("hide");
+        $('.alert').addClass("show");
+        $('.alert').addClass("showAlert");
+        $('.msg').text("Erro ao buscar usuario por id:" + xhr.responseText);
+        setTimeout(function(){
+                  $('.alert').addClass("hide");
+                  $('.alert').removeClass("show");
+        },5000);
+   	});
+
+   }
+
+
  function salvarUsuario(){
    	
    	    var codigo= $("#codigo").val();
@@ -741,20 +771,10 @@ function colocarEmEdicao(codigo){
  }
 
  $("#logar").on('click', function(){
-         var usuario = $('input:text[name=usuario]').val();
-       	// var usuario = $("#usuario").val();
-       	 var senha = $('input:password[name=senha]').val();
-     	// var usuario = $("#usuario").val();
- 		 //var senha  =  $("#senha").val();
-     	 var administrativo;
-     	$('input:radio[name=administrativoLogin]').each(function() {
-             if ($(this).is(':checked')){
-                 administrativo = $(this).val();
-              //console.log(administrativo)
-             }
-        })
+         var username = $('input:text[name=usuario]').val();
+       	 var password = $('input:password[name=senha]').val();
 
-     if(usuario == "" || senha == "") {
+     if(username == "" || password == "") {
  		        $('.alert').removeClass("hide");
  				$('.alert').addClass("show");
  				$('.alert').addClass("showAlert");
@@ -764,17 +784,19 @@ function colocarEmEdicao(codigo){
                  					$('.alert').removeClass("show");
 
                 },5000);
- 	}else if(administrativo == "false"){
- 		//administrativo = true;
+ 	}else{
  		$.ajax({
  			url: "login",
  			method: "POST",
- 			data: JSON.stringify({usuario : usuario, senha : senha, administrativo : administrativo}),
+ 			data: JSON.stringify({username : username, password : password}),
        		contentType: "application/json; charset=utf-8"
  		}).done(function(retorno){
- 				    if(retorno == true){
- 					    window.localStorage.setItem("usuariologado", "Olá "+usuario);
+ 				    if(retorno.sessao[0] == "ROLE_USERS"){
+ 					    window.localStorage.setItem("usuariologado", "Olá "+retorno.login);
  					    window.location.href = "logado.html";
+ 					}else if(retorno.sessao[0] == "ROLE_ADMIN"){
+                     	window.localStorage.setItem("usuariologado", "Olá "+retorno.login);
+                     	window.location.href = "logadoadmin.html";
  				    }else{
  				         $('.alert').removeClass("hide");
  				         $('.alert').addClass("show");
@@ -792,37 +814,7 @@ function colocarEmEdicao(codigo){
  		$("#usuario").val("");
  		$("#senha").val("");
 
- 	}else{
-
- 		$.ajax({
- 			url: "loginadmin",
- 			method: "POST",
- 			data: JSON.stringify({usuario : usuario, senha : senha, administrativo : administrativo}),
-       		contentType: "application/json; charset=utf-8"
- 		}).done(function(retorno){
- 		        console.log(retorno);
- 				 if(retorno == true){
-                           window.localStorage.setItem("usuariologado", "Olá "+usuario);
-                           window.location.href = "logadoadmin.html";
-                 }else{
- 					  $('.alert').removeClass("hide");
- 				      $('.alert').addClass("show");
- 				      $('.alert').addClass("showAlert");
- 				      $('.msg').text('Usuario , Senha ou Privilégio incorreto');
- 				      setTimeout(function(){
-                       					$('.alert').addClass("hide");
-                       					$('.alert').removeClass("show");
-
-                      },5000);
- 				 }
-
- 		});
-
-
- 		$("#usuario").val("");
- 		$("#senha").val("");
- 	}
- });
+ 	});
 
  $("#confirma").on('click', function(){
     salvarAdministrativo();

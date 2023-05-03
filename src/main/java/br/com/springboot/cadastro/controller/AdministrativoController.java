@@ -1,9 +1,12 @@
 package br.com.springboot.cadastro.controller;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
 
 import br.com.springboot.cadastro.model.Cadastro;
+import br.com.springboot.cadastro.service.AdministrativoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,68 +19,57 @@ import br.com.springboot.cadastro.repository.AdministrativoRepository;
  *
  * A sample greetings controller to return greeting text
  */
-@RestController
+@RestController("administrativo")
 public class AdministrativoController {
 	
 	@Autowired
-	private AdministrativoRepository administrativoRepository;
+	private AdministrativoService administrativoService;
     /**
      *
      * @return greeting text
      */
     
-    @GetMapping(value = "administrativo/listatodos")
+    @GetMapping(value = "/listatodos")
     @ResponseBody
-    public ResponseEntity<List<Administrativo>> listaUsuario(){
-    	List<Administrativo> administrativos = administrativoRepository.findAll();
+    public ResponseEntity<Iterable<Administrativo>> listaUsuario(){
         return ResponseEntity.ok()
-                .body(administrativos);
+                .body(administrativoService.buscarTodos());
     }
     
-   @PostMapping(value = "administrativo/salvar")
+   @PostMapping(value = "/salvar")
    @ResponseBody
-   public ResponseEntity<String> salvar(@RequestBody Administrativo administrativo) {
-       List<Administrativo> administrativos = administrativoRepository.findAll();
-       for (Administrativo admin : administrativos) {
-			if (admin.equals(administrativo)) {
-               return ResponseEntity.ok()
-                       .body("Cadastro Duplicado, Usuario ja existe");
-            }
-       }
-       administrativoRepository.save(administrativo);
-       return ResponseEntity.ok()
-               .body("Cadastro Salvo com Sucesso!!!");
+   public ResponseEntity<Administrativo> salvar(@RequestBody Administrativo administrativo) {
+       administrativoService.inserir(administrativo);
+       return ResponseEntity.ok(administrativo);
    }
    
-   @DeleteMapping(value = "administrativo/{iduser}")
+   @DeleteMapping(value = "/{iduser}")
    @ResponseBody
-    public void delete(@PathVariable Long iduser){
-    	administrativoRepository.deleteById(iduser);
+   public ResponseEntity<Void> delete(@PathVariable Long iduser){
+        administrativoService.deletar(iduser);
+        return ResponseEntity.ok().build();
     }
    
-   @GetMapping(value = "administrativo/{iduser}")
+   @GetMapping(value = "/{iduser}")
    @ResponseBody
     public ResponseEntity<Administrativo> buscaruserId(@PathVariable Long iduser){
-    	Administrativo administrativo = administrativoRepository.findById(iduser).get();
+        Administrativo administrativo = administrativoService.buscarPorId(iduser);
        return ResponseEntity.ok()
                .body(administrativo);
     }
    
-   @PutMapping(value = "administrativo/{iduser}")
+   @PutMapping(value = "/{iduser}")
    @ResponseBody
-    public void administrativoAtualizar(@PathVariable Long iduser, @RequestBody Administrativo administrativo){
-       Optional<Administrativo> administrativoBd = administrativoRepository.findById(iduser);
-       if(administrativoBd.isPresent()) {
-           administrativoRepository.save(administrativo);
-       }
+    public ResponseEntity<Administrativo> administrativoAtualizar(@PathVariable Long iduser, @RequestBody Administrativo administrativo){
+       administrativoService.atualizar(iduser,administrativo);
+       return ResponseEntity.ok(administrativo);
     }
    
-   @GetMapping(value = "administrativo/{usuario}")
+   @GetMapping(value = "/{usuario}")
    @ResponseBody
     public ResponseEntity<Administrativo> buscarPorUsuario(@PathVariable String usuario){
-    	Administrativo administrativo = administrativoRepository.findByUsuario(usuario);
+    	Administrativo administrativo = administrativoService.buscarPorUsuario(usuario);
         return ResponseEntity.ok()
-               .body(administrativo);
+                .body(administrativo);
     }
-   
 }

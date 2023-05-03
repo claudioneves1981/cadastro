@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import br.com.springboot.cadastro.model.Endereco;
 import br.com.springboot.cadastro.repository.EnderecoRepository;
+import br.com.springboot.cadastro.service.CadastroService;
 import br.com.springboot.cadastro.service.ViaCepService;
 import br.com.springboot.cadastro.utils.PdfUtil;
 import br.com.springboot.cadastro.utils.TabelaUtil;
@@ -27,104 +28,76 @@ import br.com.springboot.cadastro.repository.CadastroRepository;
  *
  * A sample greetings controller to return greeting text
  */
-@RestController
+@RestController("cadastro")
 public class CadastroController {
 	
 	@Autowired
-	private CadastroRepository cadastroRepository;
+	private CadastroService cadastroService;
 
-    @Autowired
-    private EnderecoRepository enderecoRepository;
-
-    @Autowired
-    private ViaCepService viaCepService;
     /**
      *
      * @return greeting text
      */
     
-    @GetMapping(value = "cadastro/listatodos")
+    @GetMapping(value = "/listaadmin")
     @ResponseBody
-    public ResponseEntity<List<Cadastro>> listaUsuario() {
-    	List<Cadastro> cadastro = cadastroRepository.findAll();
-        return ResponseEntity.ok()
-                .body(cadastro);
+    public ResponseEntity<Iterable<Cadastro>> buscarTodos(){
+        return ResponseEntity.ok(cadastroService.buscarTodos());
     }
     
-   @PostMapping(value = "cadastro/salvar")
+   @PostMapping(value = "/salvarcadastro")
    @ResponseBody
-    public ResponseEntity<String> salvar(@RequestBody Cadastro cadastro){
-       List<Cadastro> cadastros = cadastroRepository.findAll();
-       for (Cadastro cad : cadastros) {
-           if (cad.equals(cadastro)) {
-               return ResponseEntity.ok()
-                       .body("Cadastro Duplicado, Usuario ja existe");
-           }
-       }
-       cadastroRepository.save(cadastro);
-       return ResponseEntity.ok()
-               .body("Cadastro Salvo com Sucesso!!!");
+    public ResponseEntity<Cadastro> salvar(@RequestBody Cadastro cadastro){
+       cadastroService.inserir(cadastro);
+       return ResponseEntity.ok(cadastro);
     }
    
-   @DeleteMapping(value = "cadastro/{iduser}")
+   @DeleteMapping(value = "/{id}")
    @ResponseBody
-    public void delete(@PathVariable Long iduser){
-    	cadastroRepository.deleteById(iduser);
+    public ResponseEntity<Void> delete(@PathVariable Long id){
+       cadastroService.deletar(id);
+       return ResponseEntity.ok().build();
     }
 
-    @GetMapping(value = "cadastro/imprimirregistro/{iduser}")
+    @GetMapping(value = "/imprimirregistro/{id}")
     @ResponseBody
-    public ResponseEntity<Cadastro> imprimir(@PathVariable Long iduser) throws DocumentException, IOException{
-        Cadastro cadastro = cadastroRepository.findById(iduser).get();
+    public ResponseEntity<Cadastro> imprimir(@PathVariable Long id) throws DocumentException, IOException{
+        Cadastro cadastro = cadastroService.buscarPorId(id);
         PdfUtil.imprimeRegistro(cadastro);
         return ResponseEntity.ok()
                 .body(cadastro);
     }
 
-    @GetMapping(value = "cadastro/{iduser}")
+    @GetMapping(value = "/{id}")
     @ResponseBody
-    public ResponseEntity<Cadastro> buscaruserId(@PathVariable Long iduser) {
-        Cadastro cadastro = cadastroRepository.findById(iduser).get();
+    public ResponseEntity<Cadastro> buscaruserId(@PathVariable Long id) {
+        Cadastro cadastro = cadastroService.buscarPorId(id);
         return ResponseEntity.ok()
                 .body(cadastro);
 
     }
    
-   @PutMapping(value = "cadastro/{iduser}")
+   @PutMapping(value = "/{id}")
    @ResponseBody
-    public void cadastroAtualizar(@PathVariable Long iduser, @RequestBody Cadastro cadastro){
-       Optional<Cadastro> cadastroBd = cadastroRepository.findById(iduser);
-       if(cadastroBd.isPresent()) {
-           salvarClienteComCep(cadastro);
-       }
+    public ResponseEntity<Cadastro> cadastroAtualizar(@PathVariable Long id, @RequestBody Cadastro cadastro){
+       cadastroService.atualizar(id,cadastro);
+       return ResponseEntity.ok(cadastro);
     }
 
-    @GetMapping(value="cadastro/{nome}")
+    @GetMapping(value="/{nome}")
     @ResponseBody
-    public ResponseEntity<Cadastro> buscarPorCadastro(@PathVariable String nome){
-        Cadastro cadastro = cadastroRepository.buscarPorNome(nome);
+    public ResponseEntity<Cadastro> buscarPorNome(@PathVariable String nome){
+        Cadastro cadastro = cadastroService.buscarPorNome(nome);
         return ResponseEntity.ok()
                 .body(cadastro);
     }
 
-    @GetMapping(value = "gerandopdf/{nome}")
+    @GetMapping(value = "/gerandopdf/{nome}")
     @ResponseBody
     public ResponseEntity<List<Cadastro>> gerandoPdf(@PathVariable String nome) throws IOException, DocumentException{
-       List <Cadastro> cadastro = cadastroRepository.buscarPorCadastro(nome.trim().toUpperCase());
+       List <Cadastro> cadastro = cadastroService.buscaPorCadastro(nome.trim().toUpperCase());
        PdfUtil.gerarRelatorio(cadastro);
        return ResponseEntity.ok()
                .body(cadastro);
    }
-
-    private void salvarClienteComCep(Cadastro cadastro){
-        String cep = cadastro.getEndereco().getCep();
-        Endereco endereco =  enderecoRepository.findById(cep).orElseGet(()->{
-            Endereco novoEndereco = viaCepService.consultarCep(cep);
-            enderecoRepository.save(novoEndereco);
-            return novoEndereco;
-        });
-        cadastro.setEndereco(endereco);
-        cadastroRepository.save(cadastro);
-    }
-   
 }

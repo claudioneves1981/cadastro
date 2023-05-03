@@ -1,4 +1,4 @@
-package br.com.springboot.cadastro.service;
+package br.com.springboot.cadastro.service.impl;
 
 import br.com.springboot.cadastro.model.Administrativo;
 import br.com.springboot.cadastro.repository.AdministrativoRepository;

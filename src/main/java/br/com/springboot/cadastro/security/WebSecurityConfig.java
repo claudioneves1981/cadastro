@@ -1,8 +1,9 @@
 package br.com.springboot.cadastro.security;
 
-import br.com.springboot.cadastro.service.SecurityDatabaseService;
+import br.com.springboot.cadastro.service.impl.SecurityDatabaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -26,7 +27,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception{
         http.authorizeRequests()
                 .antMatchers("/").permitAll()
-                //.antMatchers(HttpMethod.POST,"/login").permitAll()
+                 .antMatchers(HttpMethod.POST,"/login").permitAll()
                 .antMatchers("/administrativo").hasAnyRole("ADMIN")
                 .antMatchers("/cadastro").hasAnyRole("USERS","ADMIN")
                 .anyRequest().authenticated().and().httpBasic();
