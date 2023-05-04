@@ -28,7 +28,8 @@ import br.com.springboot.cadastro.repository.CadastroRepository;
  *
  * A sample greetings controller to return greeting text
  */
-@RestController("cadastro")
+@RestController
+@RequestMapping("cadastro")
 public class CadastroController {
 	
 	@Autowired
@@ -68,7 +69,7 @@ public class CadastroController {
                 .body(cadastro);
     }
 
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = "/id/{id}")
     @ResponseBody
     public ResponseEntity<Cadastro> buscaruserId(@PathVariable Long id) {
         Cadastro cadastro = cadastroService.buscarPorId(id);
@@ -84,7 +85,7 @@ public class CadastroController {
        return ResponseEntity.ok(cadastro);
     }
 
-    @GetMapping(value="/{nome}")
+    @GetMapping(value="/nome/{nome}")
     @ResponseBody
     public ResponseEntity<Cadastro> buscarPorNome(@PathVariable String nome){
         Cadastro cadastro = cadastroService.buscarPorNome(nome);

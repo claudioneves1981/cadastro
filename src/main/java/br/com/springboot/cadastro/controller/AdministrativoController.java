@@ -1,25 +1,19 @@
 package br.com.springboot.cadastro.controller;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Optional;
 
-import br.com.springboot.cadastro.model.Cadastro;
 import br.com.springboot.cadastro.service.AdministrativoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import br.com.springboot.cadastro.model.Administrativo;
-import br.com.springboot.cadastro.repository.AdministrativoRepository;
 
 
 /**
  *
  * A sample greetings controller to return greeting text
  */
-@RestController("administrativo")
+@RestController
+@RequestMapping("administrativo")
 public class AdministrativoController {
 	
 	@Autowired
@@ -50,7 +44,7 @@ public class AdministrativoController {
         return ResponseEntity.ok().build();
     }
    
-   @GetMapping(value = "/{iduser}")
+   @GetMapping(value = "/id/{iduser}")
    @ResponseBody
     public ResponseEntity<Administrativo> buscaruserId(@PathVariable Long iduser){
         Administrativo administrativo = administrativoService.buscarPorId(iduser);
@@ -65,7 +59,7 @@ public class AdministrativoController {
        return ResponseEntity.ok(administrativo);
     }
    
-   @GetMapping(value = "/{usuario}")
+   @GetMapping(value = "/usuario/{usuario}")
    @ResponseBody
     public ResponseEntity<Administrativo> buscarPorUsuario(@PathVariable String usuario){
     	Administrativo administrativo = administrativoService.buscarPorUsuario(usuario);

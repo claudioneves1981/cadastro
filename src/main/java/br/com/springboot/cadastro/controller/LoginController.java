@@ -16,7 +16,7 @@ public class LoginController {
     @Autowired
     private AdministrativoRepository repository;
 
-    @PostMapping("/login")
+    @PostMapping("/")
     public Sessao logar(@RequestBody Login login){
         Administrativo user = repository.findByUsuario(login.getUsername());
         if(user!=null){

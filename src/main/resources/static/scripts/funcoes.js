@@ -77,7 +77,7 @@
    	
     	$.ajax({
    		    method: "GET",
-   		    url: "cadastro/imprimirregistro/"+codigo
+   		    url: "cadastro/imprimirregistro/"+codigo,
    		    success: function(response){
 
    		         $("#codigo").val(response.codigo);
@@ -118,16 +118,6 @@
                          $('.alert').removeClass("show");
                     },5000);
     	});
-   }
-
-   
-   function mascara(t, mask){
-   	 var i = t.value.length;
-   	 var saida = mask.substring(1,0);
-   	 var texto = mask.substring(i)
-   	 if (texto.substring(0,1) != saida){
-   	 t.value += texto.substring(0,1);
-   	 }
    }
    
    function calculaIdade(){
@@ -227,7 +217,7 @@ function colocarEmEdicaoAdm(codigo){
 		
    	$.ajax({
 	    		method: "GET",
-	    		url: "administrativo/"+codigo,
+	    		url: "administrativo/id/"+codigo,
 	    		success: function(response){
 	    		    $("#idadm").val(response.codigo);
    				    $("#nomeusuario").val(response.nome);
@@ -266,7 +256,7 @@ function colocarEmEdicao(codigo){
 		
    	$.ajax({
 	    		method: "GET",
-	    		url: "cadastro/"+codigo,
+	    		url: "cadastro/id/"+codigo,
 	    		success: function(response){
 	    		    $("#codigo").val(response.codigo);
    				    $("#nome").val(response.nome);
@@ -307,7 +297,7 @@ function colocarEmEdicao(codigo){
  	  
  		  $.ajax({
  	    		method: "GET",
- 	    		url: "cadastro/"+nome,
+ 	    		url: "cadastro/nome/"+nome,
  	    		success: function(response){
  	    			$('#tabelaresultados > tbody > tr').remove();
  	    			for (var i = 0; i < response.length; i++){
@@ -341,11 +331,11 @@ function colocarEmEdicao(codigo){
    
    function pesquisarAdministrativo(){
    	
-   	      var nome ="";
+   	      var nome = $("#nomeCad").val();
    	      var resposta = "";
    		  $.ajax({
    	    		method: "GET",
-   	    		url: "administrativo/"+nome
+   	    		url: "administrativo/usuario/"+nome,
    	    		success: function(response){
    	    			$('#tabelaadministrativo > tbody > tr').remove();
    	    			for (var i = 0; i < response.length; i++){
@@ -457,7 +447,7 @@ function colocarEmEdicao(codigo){
    	if(codigo == "" || codigo == null){
    	$.ajax({
    		method: "POST",
-   		url: "cadastro/salvar",
+   		url: "cadastro/salvarcadastro",
         data : JSON.stringify(
            		    {
            		    nome : nome,
@@ -590,11 +580,22 @@ function colocarEmEdicao(codigo){
  			//var senhaConfirma = $("#senhaConfirma").val();
 
      	    var administrativo = "";
+     	    var roles = []
             $('input:radio[name=administrativoCad]').each(function() {
                 if ($(this).is(':checked')){
                  administrativo = $(this).val();
                 }
             })
+
+            if(administrativo == true){
+
+               roles[0] = "ROLE_ADMIN";
+
+            }else{
+
+               roles[0] = "ROLE_USERS";
+
+            }
 
      		if (nome == "" || usuario == "" || senha == "" || senhaConfirma == "" || administrativo == ""){
 
@@ -639,7 +640,7 @@ function colocarEmEdicao(codigo){
 
  			} else if(senha != senhaConfirma){
 
- 			$('.alert').removeClass("hide");
+ 			    $('.alert').removeClass("hide");
  				$('.alert').addClass("show");
  				$('.alert').addClass("showAlert");
  				$('.msg').text('Atenção: Senha deve ser igual ');
@@ -653,10 +654,10 @@ function colocarEmEdicao(codigo){
 
  			}else if(codigo != "" || codigo != null){
 
- 			$.ajax({
+ 			                $.ajax({
                    		        method: "PUT",
                    		        url: "administrativo/"+codigo,
-                   		        data : JSON.stringify({nome : nome, usuario : usuario, senha : senha, administrativo : administrativo}),
+                   		        data : JSON.stringify({nome : nome, usuario : usuario, senha : senha, administrativo : administrativo, roles : roles}),
                    		        contentType: "application/json; charset=utf-8",
                    		        success: function(response){
 
@@ -709,13 +710,13 @@ function colocarEmEdicao(codigo){
 
              		});
 
-
- 			}else{
+            //erro nao consigo identificar
+            }else if(roles != null){
 
             	$.ajax({
        		        method: "POST",
        		        url: "administrativo/salvar",
-       		        data : JSON.stringify({nome : nome, usuario : usuario, senha : senha, administrativo : administrativo}),
+       		        data : JSON.stringify({nome : nome, usuario : usuario, senha : senha, administrativo : administrativo, roles: roles}),
        		        contentType: "application/json; charset=utf-8",
        		        success: function(response){
 
@@ -759,6 +760,7 @@ function colocarEmEdicao(codigo){
                     },5000);
        	        });
        	    }
+
 
        	$('.close-btn').click(function(){
 
