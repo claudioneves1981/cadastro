@@ -567,7 +567,18 @@ function colocarEmEdicao(codigo){
    	
 
  }
-  function salvarAdministrativo(){
+
+ function cadastrarAdministrativo(novoadministrativo){
+
+   if (novoadministrativo = "cadastroadministrativo"){
+
+          salvarAdministrativo(novoadministrativo)
+   }
+
+ }
+
+
+  function salvarAdministrativo(editaradministrativo){
 
        	   // var nome = $("#nomeCad").val();
        	   	var codigo =  $("#idadm").val();
@@ -585,7 +596,7 @@ function colocarEmEdicao(codigo){
                 if ($(this).is(':checked')){
                  administrativo = $(this).val();
                 }
-            })
+            });
 
             if(administrativo == true){
 
@@ -652,70 +663,12 @@ function colocarEmEdicao(codigo){
 
  				},5000);
 
- 			}else if(codigo != "" || codigo != null){
-
- 			                $.ajax({
-                   		        method: "PUT",
-                   		        url: "administrativo/"+codigo,
-                   		        data : JSON.stringify({nome : nome, usuario : usuario, senha : senha, administrativo : administrativo, roles : roles}),
-                   		        contentType: "application/json; charset=utf-8",
-                   		        success: function(response){
-
-                   		            var resposta = confirm("Você Deseja cadastrar esse Usuario?");
-                   			        if (resposta == true){
-                   			          $('.alert').removeClass("hide");
-             				          $('.alert').addClass("show");
-             				          $('.alert').addClass("showAlert");
-             				          $('.msg').text(response);
-             				          setTimeout(function(){
-                             					$('.alert').addClass("hide");
-                             					$('.alert').removeClass("show");
-
-                                     },5000);
-                                     //window.location.href = "index.html";
-
-                   			        }else{
-                   			        $('.alert').removeClass("hide");
-             				        $('.alert').addClass("show");
-             				        $('.alert').addClass("showAlert");
-             				        $('.msg').text('Operação Cancelada ');
-             				            setTimeout(function(){
-                             					$('.alert').addClass("hide");
-                             					$('.alert').removeClass("show");
-
-                                        },5000);
-
-                   			        }
-
-
-                    	        }
-                   	        }).fail(function(xhr,status,errorThrown){
-                   	        $('.alert').removeClass("hide");
-             				$('.alert').addClass("show");
-             				$('.alert').addClass("showAlert");
-             				$('.msg').text('Erro ao salvar ');
-             				    setTimeout(function(){
-                             					$('.alert').addClass("hide");
-                             					$('.alert').removeClass("show");
-
-                                },5000);
-                   	        });
-                   	    }
-
-                   	$('.close-btn').click(function(){
-
-             			$('.alert').addClass("hide");
-             			$('.alert').removeClass("show");
-
-
-             		});
-
             //erro nao consigo identificar
             }else if(roles != null){
 
             	$.ajax({
        		        method: "POST",
-       		        url: "administrativo/salvar",
+       		        url: editaradministrativo+"/salvar",
        		        data : JSON.stringify({nome : nome, usuario : usuario, senha : senha, administrativo : administrativo, roles: roles}),
        		        contentType: "application/json; charset=utf-8",
        		        success: function(response){
@@ -816,8 +769,10 @@ function colocarEmEdicao(codigo){
  		$("#usuario").val("");
  		$("#senha").val("");
 
+ 	}
+
  	});
 
  $("#confirma").on('click', function(){
-    salvarAdministrativo();
+    cadastrarAdministrativo("cadastroadministrativo");
  });

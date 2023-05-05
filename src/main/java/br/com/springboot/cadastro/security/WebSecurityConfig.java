@@ -27,6 +27,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception{
         http.authorizeRequests()
                 .antMatchers("/**").permitAll()
+                .antMatchers("/cadastroadministrativo/salvar").permitAll()
                 .antMatchers("/administrativo").hasAnyRole("ADMIN")
                 .antMatchers("/cadastro").hasAnyRole("USERS","ADMIN")
                 .anyRequest().authenticated();
