@@ -13,12 +13,7 @@ mvn spring-boot:run
 Após executar o comando acima, basta apenas abrir o seguinte endereço e visualizar a execução do projeto:
 
 ```
-http://localhost:8080/cadastro
-```
-
-Para acessar a Documentação Swagger acesse:
-```
-http://localhost:8080/cadastro/swagger-ui.html
+http://localhost:8080/
 ```
 
 São necessários os seguintes pré-requisitos para a execução do projeto:
@@ -45,6 +40,3 @@ Abaixo, seguem links dos principais recursos usados no projeto.
 * [Referência para o padrão arquitetural REST](https://restfulapi.net/)
 * [Site oficial PostgreSQL](https://www.postgresql.org/)
 * [Bootstrap](https://getbootstrap.com/)
-* [Swagger IO Open Api](https://swagger.io/)
-
-Projeto postado do Railway(https://cadastro-production.up.railway.app/cadastro/)
