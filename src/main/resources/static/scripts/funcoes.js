@@ -600,11 +600,11 @@ function colocarEmEdicao(codigo){
 
             if(administrativo == true){
 
-               roles[0] = "ROLE_ADMIN";
+               roles[0] = "ADMIN";
 
             }else{
 
-               roles[0] = "ROLE_USERS";
+               roles[0] = "USERS";
 
             }
 
@@ -741,7 +741,7 @@ function colocarEmEdicao(codigo){
                 },5000);
  	}else{
  		$.ajax({
- 			url: "login",
+ 			url: "/login",
  			method: "POST",
  			data: JSON.stringify({username : username, password : password}),
        		contentType: "application/json; charset=utf-8"
@@ -774,5 +774,5 @@ function colocarEmEdicao(codigo){
  	});
 
  $("#confirma").on('click', function(){
-    cadastrarAdministrativo("cadastroadministrativo");
+    cadastrarAdministrativo('cadastroadministrativo');
  });

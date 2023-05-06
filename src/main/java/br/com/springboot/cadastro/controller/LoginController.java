@@ -5,18 +5,24 @@ import br.com.springboot.cadastro.dto.Sessao;
 import br.com.springboot.cadastro.model.Administrativo;
 import br.com.springboot.cadastro.repository.AdministrativoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 public class LoginController {
 
     @Autowired
     private PasswordEncoder encoder;
+
     @Autowired
     private AdministrativoRepository repository;
 
-    @PostMapping("/")
+
+    @PostMapping("/login")
+    @ResponseBody
     public Sessao logar(@RequestBody Login login){
         Administrativo user = repository.findByUsuario(login.getUsername());
         if(user!=null){

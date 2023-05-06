@@ -20,17 +20,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public void globalUserDetails(AuthenticationManagerBuilder auth) throws Exception{
         auth.userDetailsService(securityService).passwordEncoder(NoOpPasswordEncoder.getInstance());
-
     }
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception{
+   protected void configure(HttpSecurity http) throws Exception{
         http.authorizeRequests()
-                .antMatchers("/**").permitAll()
-                .antMatchers("/cadastroadministrativo/salvar").permitAll()
+                .antMatchers("/**").anonymous()
+                .antMatchers( "/login").anonymous()
+                .antMatchers( "/cadastroadministrativo").anonymous()
                 .antMatchers("/administrativo").hasAnyRole("ADMIN")
                 .antMatchers("/cadastro").hasAnyRole("USERS","ADMIN")
-                .anyRequest().authenticated();
+                .anyRequest().authenticated().and().httpBasic();
 
     }
 }

@@ -28,10 +28,9 @@ public class SecurityDatabaseService implements UserDetailsService {
             authorities.add(new SimpleGrantedAuthority("ROLE_"+ role));
 
         });
-        UserDetails user = new org.springframework.security.core.userdetails.User(userEntity.getUsuario(),
+
+        return new org.springframework.security.core.userdetails.User(userEntity.getUsuario(),
                 userEntity.getSenha(),
                 authorities);
-
-        return user;
     }
 }
