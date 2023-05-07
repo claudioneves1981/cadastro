@@ -87,8 +87,8 @@ public class CadastroController {
 
     @GetMapping(value="/nome/{nome}")
     @ResponseBody
-    public ResponseEntity<Cadastro> buscarPorNome(@PathVariable String nome){
-        Cadastro cadastro = cadastroService.buscarPorNome(nome);
+    public ResponseEntity<List<Cadastro>> buscarPorNome(@PathVariable String nome){
+        List<Cadastro> cadastro = cadastroService.buscaPorCadastro(nome);
         return ResponseEntity.ok()
                 .body(cadastro);
     }

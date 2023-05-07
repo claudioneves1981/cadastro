@@ -1,12 +1,22 @@
 package br.com.springboot.cadastro.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Sessao {
 
     private String login;
+    private Boolean administrativo;
 
-    public List<String> roles;
+
+    public Boolean getAdministrativo() {
+        return administrativo;
+    }
+
+    public void setAdministrativo(Boolean administrativo) {
+        this.administrativo = administrativo;
+    }
+
 
     public String getLogin() {
         return login;
@@ -16,12 +26,7 @@ public class Sessao {
         this.login = login;
     }
 
-    public List<String> getRoles() {
-        return roles;
-    }
 
-    public void setRoles(List<String> roles) {
-        this.roles = roles;
-    }
+
 }
 

@@ -16,7 +16,7 @@ public class Administrativo implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_administrativo")
+	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "seq_administrativo")
 	private Long codigo;
 
 	@Column(unique = true)
@@ -30,7 +30,7 @@ public class Administrativo implements Serializable{
 	private Boolean administrativo;
 
 	@ElementCollection(fetch = FetchType.EAGER)
-	@CollectionTable(name= "tab_user_roles",joinColumns = @JoinColumn(name = "user_id"))
+	@CollectionTable(name= "tab_user_roles",joinColumns = @JoinColumn(name = "codigo"))
 	@Column(name = "role_id")
 	private List<String> roles = new ArrayList<>();
 

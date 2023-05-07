@@ -53,10 +53,11 @@
                 <br>
                 <h2 class="sub-title">Endereço</h2>
                 <div class="col-md-6" style ="width: 650px;">
+                    <label>CEP </label><input type="text" class="form-control" id="cep" style="width: 92px; " maxlength="9">
+                    <button type="button" class="input-block btn-primary" onclick="consultarCep()">Pesquisar</button>
                     <label>Endereço </label><input type="text" class="form-control" id="endereco"  style="width: 300px; ">
                     <label>Nº </label><input type="text" class="form-control" id="numero" style="width: 47px; ">
                     <label>Bairro </label> <input type="text" class="form-control" id="bairro"  style="width: 300px; ">
-                    <label>CEP </label><input type="text" class="form-control" id="cep" style="width: 92px; " onkeypress="mascara(this, '#####-###')" maxlength="9"><label>Cidade </label><input type="text" class="form-control" id="cidade" style="width: 92px; "><label>UF </label><input type="text" class="form-control" id="estado" style="width: 92px; ">
                 </div>
                 <div class="col-md-6">
                     <label>Telefone1</label><input type="text" class="form-control" id="telefone1"  style="width: 325px; " onkeypress="mascara(this, '## #####-####')" maxlength="13">

@@ -60,7 +60,6 @@ public class CadastroServiceImpl implements CadastroService {
     @Override
     public List<Cadastro> buscaPorCadastro(String nome){
         return cadastroRepository.buscarPorCadastro(nome);
-
     }
 
     private void salvarClienteComCep(Cadastro cadastro){

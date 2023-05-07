@@ -21,6 +21,7 @@
                   $.ajax({
         	    		method: "GET",
         	    		url: "gerandopdf/"+nome,
+        	    		//headers: {'X-XSRF-TOKEN': document.cookie.match(/XSRF-TOKEN=([\d\w-]+)/)[1]},
         	    		success: function(response){
         	    		    $('.alert').removeClass("hide");
                             $('.alert').addClass("show");
@@ -78,6 +79,7 @@
     	$.ajax({
    		    method: "GET",
    		    url: "cadastro/imprimirregistro/"+codigo,
+   		    //headers: {'X-XSRF-TOKEN': document.cookie.match(/XSRF-TOKEN=([\d\w-]+)/)[1]},
    		    success: function(response){
 
    		         $("#codigo").val(response.codigo);
@@ -150,6 +152,7 @@
    	        $.ajax({
 	    		method: "DELETE",
 	    		url: "cadastro/"+codigo,
+	    		//headers: {'X-XSRF-TOKEN': document.cookie.match(/XSRF-TOKEN=([\d\w-]+)/)[1]},
 	    		success: function(response){
 	    			$('#'+codigo).remove();
 	    			$('.alert').removeClass("hide");
@@ -189,6 +192,7 @@
    	        $.ajax({
 	    		method: "DELETE",
 	    		url: "administrativo/"+codigo,
+	    		//headers: {'X-XSRF-TOKEN': document.cookie.match(/XSRF-TOKEN=([\d\w-]+)/)[1]},
 	    		success: function(response){
 	    			$('#'+codigo).remove();
 	    			$('.alert').removeClass("hide");
@@ -218,6 +222,7 @@ function colocarEmEdicaoAdm(codigo){
    	$.ajax({
 	    		method: "GET",
 	    		url: "administrativo/id/"+codigo,
+	    		//headers: {'X-XSRF-TOKEN': document.cookie.match(/XSRF-TOKEN=([\d\w-]+)/)[1]},
 	    		success: function(response){
 	    		    $("#idadm").val(response.codigo);
    				    $("#nomeusuario").val(response.nome);
@@ -257,6 +262,7 @@ function colocarEmEdicao(codigo){
    	$.ajax({
 	    		method: "GET",
 	    		url: "cadastro/id/"+codigo,
+	    		//headers: {'X-XSRF-TOKEN': document.cookie.match(/XSRF-TOKEN=([\d\w-]+)/)[1]},
 	    		success: function(response){
 	    		    $("#codigo").val(response.codigo);
    				    $("#nome").val(response.nome);
@@ -298,6 +304,7 @@ function colocarEmEdicao(codigo){
  		  $.ajax({
  	    		method: "GET",
  	    		url: "cadastro/nome/"+nome,
+ 	    		//headers: {'X-XSRF-TOKEN': document.cookie.match(/XSRF-TOKEN=([\d\w-]+)/)[1]},
  	    		success: function(response){
  	    			$('#tabelaresultados > tbody > tr').remove();
  	    			for (var i = 0; i < response.length; i++){
@@ -336,6 +343,7 @@ function colocarEmEdicao(codigo){
    		  $.ajax({
    	    		method: "GET",
    	    		url: "administrativo/usuario/"+nome,
+   	    		//headers: {'X-XSRF-TOKEN': document.cookie.match(/XSRF-TOKEN=([\d\w-]+)/)[1]},
    	    		success: function(response){
    	    			$('#tabelaadministrativo > tbody > tr').remove();
    	    			for (var i = 0; i < response.length; i++){
@@ -378,13 +386,14 @@ function colocarEmEdicao(codigo){
 
    	$.ajax({
    	    		method: "GET",
-   	    		url: cep+"/json",
+   	    		url: cep+"/json/",
+   	    		//headers: {'X-XSRF-TOKEN': document.cookie.match(/XSRF-TOKEN=([\d\w-]+)/)[1]},
    	    		success: function(response){
-   				    $("#endereco").val(response.endereco.logradouro);
-   				    $("#numero").val(response.numero);
-   				    $("#bairro").val(response.endereco.bairro);
-   				    $("#cidade").val(response.endereco.localidade);
-   				    $("#estado").val(response.endereco.uf);
+   	    		    console.log(response)
+   				    $("#endereco").val(response.logradouro);
+   				    $("#bairro").val(response.bairro);
+   				    $("#cidade").val(response.localidade);
+   				    $("#estado").val(response.uf);
                    }
 
 
@@ -448,6 +457,7 @@ function colocarEmEdicao(codigo){
    	$.ajax({
    		method: "POST",
    		url: "cadastro/salvarcadastro",
+   		//headers: {'X-XSRF-TOKEN': document.cookie.match(/XSRF-TOKEN=([\d\w-]+)/)[1]},
         data : JSON.stringify(
            		    {
            		    nome : nome,
@@ -498,16 +508,17 @@ function colocarEmEdicao(codigo){
      $('.alert').addClass("show");
      $('.alert').addClass("showAlert");
      $('.msg').text("Erro ao salvar:");
-     setTimeout(function(){
+        setTimeout(function(){
                 $('.alert').addClass("hide");
                 $('.alert').removeClass("show");
-     },5000);
+        },5000);
    	});
-   	}else{
 
+   	}else{
  	$.ajax({
            		method: "PUT",
            		url: "cadastro/"+codigo,
+           		//headers: {'X-XSRF-TOKEN': document.cookie.match(/XSRF-TOKEN=([\d\w-]+)/)[1]},
            		data : JSON.stringify(
            		    {
            		    nome : nome,
@@ -600,11 +611,11 @@ function colocarEmEdicao(codigo){
 
             if(administrativo == true){
 
-               roles[0] = "ADMIN";
+               roles[0] = "ROLE_ADMIN";
 
             }else{
 
-               roles[0] = "USERS";
+               roles[0] = "ROLE_USERS";
 
             }
 
@@ -669,6 +680,7 @@ function colocarEmEdicao(codigo){
             	$.ajax({
        		        method: "POST",
        		        url: editaradministrativo+"/salvar",
+       		        //////headers: {'X-XSRF-TOKEN': document.cookie.match(/XSRF-TOKEN=([\d\w-]+)/)[1]},
        		        data : JSON.stringify({nome : nome, usuario : usuario, senha : senha, administrativo : administrativo, roles: roles}),
        		        contentType: "application/json; charset=utf-8",
        		        success: function(response){
@@ -726,10 +738,10 @@ function colocarEmEdicao(codigo){
  }
 
  $("#logar").on('click', function(){
-         var username = $('input:text[name=usuario]').val();
-       	 var password = $('input:password[name=senha]').val();
+         const username = $('input:text[name=usuario]').val();
+       	 const password = $('input:password[name=senha]').val();
 
-     if(username == "" || password == "") {
+   if(username == "" || password == "") {
  		        $('.alert').removeClass("hide");
  				$('.alert').addClass("show");
  				$('.alert').addClass("showAlert");
@@ -741,15 +753,16 @@ function colocarEmEdicao(codigo){
                 },5000);
  	}else{
  		$.ajax({
- 			url: "/login",
  			method: "POST",
+ 			url: "login",
+ 			//////headers: {'X-XSRF-TOKEN': document.cookie.match(/XSRF-TOKEN=([\d\w-]+)/)[1]},
  			data: JSON.stringify({username : username, password : password}),
        		contentType: "application/json; charset=utf-8"
  		}).done(function(retorno){
- 				    if(retorno.sessao[0] == "ROLE_USERS"){
+ 				    if(retorno.administrativo == false){
  					    window.localStorage.setItem("usuariologado", "Olá "+retorno.login);
  					    window.location.href = "logado.html";
- 					}else if(retorno.sessao[0] == "ROLE_ADMIN"){
+ 					}else if(retorno.administrativo == true){
                      	window.localStorage.setItem("usuariologado", "Olá "+retorno.login);
                      	window.location.href = "logadoadmin.html";
  				    }else{

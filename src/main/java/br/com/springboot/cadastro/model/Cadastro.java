@@ -15,7 +15,7 @@ public class Cadastro implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_cadastro")
+	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "seq_cadastro")
 	private Long codigo;
 
 	@Column(unique=true)
