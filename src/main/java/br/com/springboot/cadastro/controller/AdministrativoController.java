@@ -1,6 +1,7 @@
 package br.com.springboot.cadastro.controller;
 
 
+import br.com.springboot.cadastro.dto.AdministrativoDTO;
 import br.com.springboot.cadastro.service.AdministrativoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,14 +26,14 @@ public class AdministrativoController {
     
     @GetMapping(value = "/listatodos")
     @ResponseBody
-    public ResponseEntity<Iterable<Administrativo>> listaUsuario(){
+    public ResponseEntity<Iterable<AdministrativoDTO>> listaUsuario(){
         return ResponseEntity.ok()
                 .body(administrativoService.buscarTodos());
     }
     
    @PostMapping(value = "/salvar")
    @ResponseBody
-   public ResponseEntity<Administrativo> salvar(@RequestBody Administrativo administrativo) {
+   public ResponseEntity<AdministrativoDTO> salvar(@RequestBody AdministrativoDTO administrativo) {
        administrativoService.inserir(administrativo);
        return ResponseEntity.ok(administrativo);
    }
@@ -46,23 +47,23 @@ public class AdministrativoController {
    
    @GetMapping(value = "/id/{iduser}")
    @ResponseBody
-    public ResponseEntity<Administrativo> buscaruserId(@PathVariable Long iduser){
-        Administrativo administrativo = administrativoService.buscarPorId(iduser);
+    public ResponseEntity<AdministrativoDTO> buscaruserId(@PathVariable Long iduser){
+        AdministrativoDTO administrativo = administrativoService.buscarPorId(iduser);
        return ResponseEntity.ok()
                .body(administrativo);
     }
    
    @PutMapping(value = "/{iduser}")
    @ResponseBody
-    public ResponseEntity<Administrativo> administrativoAtualizar(@PathVariable Long iduser, @RequestBody Administrativo administrativo){
+    public ResponseEntity<AdministrativoDTO> administrativoAtualizar(@PathVariable Long iduser, @RequestBody AdministrativoDTO administrativo){
        administrativoService.atualizar(iduser,administrativo);
        return ResponseEntity.ok(administrativo);
     }
    
    @GetMapping(value = "/usuario/{usuario}")
    @ResponseBody
-    public ResponseEntity<Administrativo> buscarPorUsuario(@PathVariable String usuario){
-    	Administrativo administrativo = administrativoService.buscarPorUsuario(usuario);
+    public ResponseEntity<AdministrativoDTO> buscarPorUsuario(@PathVariable String usuario){
+    	AdministrativoDTO administrativo = administrativoService.buscarPorUsuario(usuario);
         return ResponseEntity.ok()
                 .body(administrativo);
     }

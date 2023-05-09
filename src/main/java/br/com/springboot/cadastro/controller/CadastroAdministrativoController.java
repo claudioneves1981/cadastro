@@ -1,5 +1,6 @@
 package br.com.springboot.cadastro.controller;
 
+import br.com.springboot.cadastro.dto.AdministrativoDTO;
 import br.com.springboot.cadastro.model.Administrativo;
 import br.com.springboot.cadastro.service.AdministrativoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,7 @@ public class CadastroAdministrativoController {
 
     @PostMapping(value = "/salvar")
     @ResponseBody
-    public ResponseEntity<Administrativo> salvar(@RequestBody Administrativo administrativo) {
+    public ResponseEntity<AdministrativoDTO> salvar(@RequestBody AdministrativoDTO administrativo) {
         administrativoService.inserir(administrativo);
         return ResponseEntity.ok(administrativo);
     }

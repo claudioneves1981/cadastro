@@ -1,5 +1,6 @@
 package br.com.springboot.cadastro.service;
 
+import br.com.springboot.cadastro.dto.CadastroDTO;
 import br.com.springboot.cadastro.model.Cadastro;
 import br.com.springboot.cadastro.repository.CadastroRepository;
 import br.com.springboot.cadastro.repository.EnderecoRepository;
@@ -9,17 +10,17 @@ import java.util.List;
 
 public interface CadastroService {
 
-    Iterable<Cadastro> buscarTodos();
+    Iterable<CadastroDTO> buscarTodos();
 
-    Cadastro buscarPorId(Long id);
+    CadastroDTO buscarPorId(Long id);
 
-    void inserir(Cadastro cadastro);
+    void inserir(CadastroDTO cadastro);
 
-    void atualizar(Long id, Cadastro cadastro);
+    void atualizar(Long id, CadastroDTO cadastro);
 
     void deletar(Long id);
 
-    Cadastro buscarPorNome(String nome);
+    CadastroDTO buscarPorNome(String nome);
 
-   List<Cadastro> buscaPorCadastro(String nome);
+   List<CadastroDTO> buscaPorCadastro(String nome);
 }

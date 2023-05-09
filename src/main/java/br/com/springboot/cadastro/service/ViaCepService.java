@@ -1,5 +1,6 @@
 package br.com.springboot.cadastro.service;
 
+import br.com.springboot.cadastro.dto.EnderecoDTO;
 import br.com.springboot.cadastro.model.Endereco;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;

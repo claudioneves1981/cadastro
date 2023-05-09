@@ -1,5 +1,6 @@
 package br.com.springboot.cadastro.utils;
 
+import br.com.springboot.cadastro.dto.CadastroDTO;
 import br.com.springboot.cadastro.model.Cadastro;
 import com.itextpdf.text.pdf.PdfPTable;
 
@@ -7,7 +8,7 @@ import java.util.List;
 
 public class TabelaUtil {
 
-    public static void fillTable(PdfPTable tabela, List<Cadastro> cadastro) {
+    public static void fillTable(PdfPTable tabela, List<CadastroDTO> cadastro) {
         tabela.addCell("ID");
         tabela.addCell("Nome");
         tabela.addCell("Nasc");
@@ -29,7 +30,7 @@ public class TabelaUtil {
         // }
 
         for (
-                Cadastro value : cadastro) {
+                CadastroDTO value : cadastro) {
             tabela.addCell(String.valueOf(value.getCodigo()));
             tabela.addCell(value.getNome());
             tabela.addCell(String.valueOf(value.getDatanasc()));

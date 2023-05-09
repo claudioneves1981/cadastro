@@ -6,6 +6,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
 
+import br.com.springboot.cadastro.dto.CadastroDTO;
 import br.com.springboot.cadastro.model.Endereco;
 import br.com.springboot.cadastro.repository.EnderecoRepository;
 import br.com.springboot.cadastro.service.CadastroService;
@@ -42,13 +43,13 @@ public class CadastroController {
     
     @GetMapping(value = "/listaadmin")
     @ResponseBody
-    public ResponseEntity<Iterable<Cadastro>> buscarTodos(){
+    public ResponseEntity<Iterable<CadastroDTO>> buscarTodos(){
         return ResponseEntity.ok(cadastroService.buscarTodos());
     }
     
    @PostMapping(value = "/salvarcadastro")
    @ResponseBody
-    public ResponseEntity<Cadastro> salvar(@RequestBody Cadastro cadastro){
+    public ResponseEntity<CadastroDTO> salvar(@RequestBody CadastroDTO cadastro){
        cadastroService.inserir(cadastro);
        return ResponseEntity.ok(cadastro);
     }
@@ -62,8 +63,8 @@ public class CadastroController {
 
     @GetMapping(value = "/imprimirregistro/{id}")
     @ResponseBody
-    public ResponseEntity<Cadastro> imprimir(@PathVariable Long id) throws DocumentException, IOException{
-        Cadastro cadastro = cadastroService.buscarPorId(id);
+    public ResponseEntity<CadastroDTO> imprimir(@PathVariable Long id) throws DocumentException, IOException{
+        CadastroDTO cadastro = cadastroService.buscarPorId(id);
         PdfUtil.imprimeRegistro(cadastro);
         return ResponseEntity.ok()
                 .body(cadastro);
@@ -71,8 +72,8 @@ public class CadastroController {
 
     @GetMapping(value = "/id/{id}")
     @ResponseBody
-    public ResponseEntity<Cadastro> buscaruserId(@PathVariable Long id) {
-        Cadastro cadastro = cadastroService.buscarPorId(id);
+    public ResponseEntity<CadastroDTO> buscaruserId(@PathVariable Long id) {
+        CadastroDTO cadastro = cadastroService.buscarPorId(id);
         return ResponseEntity.ok()
                 .body(cadastro);
 
@@ -80,23 +81,23 @@ public class CadastroController {
    
    @PutMapping(value = "/{id}")
    @ResponseBody
-    public ResponseEntity<Cadastro> cadastroAtualizar(@PathVariable Long id, @RequestBody Cadastro cadastro){
+    public ResponseEntity<CadastroDTO> cadastroAtualizar(@PathVariable Long id, @RequestBody CadastroDTO cadastro){
        cadastroService.atualizar(id,cadastro);
        return ResponseEntity.ok(cadastro);
     }
 
     @GetMapping(value="/nome/{nome}")
     @ResponseBody
-    public ResponseEntity<List<Cadastro>> buscarPorNome(@PathVariable String nome){
-        List<Cadastro> cadastro = cadastroService.buscaPorCadastro(nome);
+    public ResponseEntity<List<CadastroDTO>> buscarPorNome(@PathVariable String nome){
+        List<CadastroDTO> cadastro = cadastroService.buscaPorCadastro(nome);
         return ResponseEntity.ok()
                 .body(cadastro);
     }
 
     @GetMapping(value = "/gerandopdf/{nome}")
     @ResponseBody
-    public ResponseEntity<List<Cadastro>> gerandoPdf(@PathVariable String nome) throws IOException, DocumentException{
-       List <Cadastro> cadastro = cadastroService.buscaPorCadastro(nome.trim().toUpperCase());
+    public ResponseEntity<List<CadastroDTO>> gerandoPdf(@PathVariable String nome) throws IOException, DocumentException{
+       List <CadastroDTO> cadastro = cadastroService.buscaPorCadastro(nome.trim().toUpperCase());
        PdfUtil.gerarRelatorio(cadastro);
        return ResponseEntity.ok()
                .body(cadastro);

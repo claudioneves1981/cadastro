@@ -1,6 +1,9 @@
 package br.com.springboot.cadastro.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -11,6 +14,9 @@ import javax.persistence.*;
 @Entity
 @SequenceGenerator(name = "seq_administrativo" , sequenceName = "seq_administrativo", allocationSize = 1, initialValue = 1)
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class Administrativo implements Serializable{
 
 	private static final long serialVersionUID = 1L;
@@ -19,10 +25,8 @@ public class Administrativo implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "seq_administrativo")
 	private Long codigo;
 
-	@Column(unique = true)
 	private String nome;
 
-	@Column(unique = true)
 	private String usuario;
 
 	private String senha;

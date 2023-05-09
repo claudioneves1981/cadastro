@@ -1,19 +1,22 @@
 package br.com.springboot.cadastro.service;
 
+import br.com.springboot.cadastro.dto.AdministrativoDTO;
 import br.com.springboot.cadastro.model.Administrativo;
 import br.com.springboot.cadastro.model.Cadastro;
 
+import java.util.List;
+
 public interface AdministrativoService {
 
-    Iterable<Administrativo> buscarTodos();
+    Iterable<AdministrativoDTO> buscarTodos();
 
-    Administrativo buscarPorId(Long id);
+    AdministrativoDTO buscarPorId(Long id);
 
-    void inserir(Administrativo administrativo);
+    void inserir(AdministrativoDTO administrativo);
 
-    void atualizar(Long id, Administrativo administrativo);
+    void atualizar(Long id, AdministrativoDTO administrativo);
 
     void deletar(Long id);
 
-    Administrativo buscarPorUsuario(String nome);
+    AdministrativoDTO buscarPorUsuario(String nome);
 }

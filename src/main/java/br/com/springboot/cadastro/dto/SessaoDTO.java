@@ -3,7 +3,7 @@ package br.com.springboot.cadastro.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Sessao {
+public class SessaoDTO {
 
     private String login;
     private Boolean administrativo;

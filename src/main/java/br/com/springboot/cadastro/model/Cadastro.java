@@ -5,11 +5,17 @@ import java.util.Date;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @SequenceGenerator(name = "seq_cadastro" , sequenceName = "seq_cadastro", allocationSize = 1, initialValue = 1)
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class Cadastro implements Serializable{
 
 	private static final long serialVersionUID = 1L;
@@ -18,7 +24,6 @@ public class Cadastro implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "seq_cadastro")
 	private Long codigo;
 
-	@Column(unique=true)
 	private String nome;
 	
 	@JsonFormat(pattern="yyyy-MM-dd")
@@ -38,7 +43,6 @@ public class Cadastro implements Serializable{
 
 	private Boolean casapropria;
 
-	@Column(unique=true)
 	private String numeronis;
 	
 	}

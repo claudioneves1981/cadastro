@@ -1,5 +1,6 @@
 package br.com.springboot.cadastro.utils;
 
+import br.com.springboot.cadastro.dto.CadastroDTO;
 import br.com.springboot.cadastro.model.Cadastro;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -15,7 +16,7 @@ import java.util.List;
 
 public class PdfUtil {
 
-    public static void imprimeRegistro(Cadastro cadastro) throws IOException, DocumentException {
+    public static void imprimeRegistro(CadastroDTO cadastro) throws IOException, DocumentException {
         Document documento = new Document();
 
         //Properties properties = System.getProperties();
@@ -76,7 +77,7 @@ public class PdfUtil {
 
     }
 
-    public static void gerarRelatorio(List<Cadastro> cadastro) throws IOException, DocumentException {
+    public static void gerarRelatorio(List<CadastroDTO> cadastro) throws IOException, DocumentException {
 
         Document documento = new Document(PageSize.A4.rotate());
         float tableWidth = 100f;

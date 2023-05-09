@@ -1,6 +1,6 @@
 package br.com.springboot.cadastro.dto;
 
-public class Login {
+public class LoginDTO {
 
     private String username;
     private String password;

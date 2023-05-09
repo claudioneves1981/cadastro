@@ -521,6 +521,7 @@ function colocarEmEdicao(codigo){
            		//headers: {'X-XSRF-TOKEN': document.cookie.match(/XSRF-TOKEN=([\d\w-]+)/)[1]},
            		data : JSON.stringify(
            		    {
+           		    codigo : codigo,
            		    nome : nome,
            	        datanasc : datanasc,
            		    idade : idade,

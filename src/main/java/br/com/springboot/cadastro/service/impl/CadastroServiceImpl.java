@@ -1,5 +1,11 @@
 package br.com.springboot.cadastro.service.impl;
 
+import br.com.springboot.cadastro.adapter.CadastroDTOAdapter;
+import br.com.springboot.cadastro.adapter.CadastroModelAdapter;
+import br.com.springboot.cadastro.adapter.EnderecoDTOAdapter;
+import br.com.springboot.cadastro.adapter.EnderecoModelAdapter;
+import br.com.springboot.cadastro.dto.CadastroDTO;
+import br.com.springboot.cadastro.dto.EnderecoDTO;
 import br.com.springboot.cadastro.model.Cadastro;
 import br.com.springboot.cadastro.model.Endereco;
 import br.com.springboot.cadastro.repository.CadastroRepository;
@@ -24,23 +30,23 @@ public class CadastroServiceImpl implements CadastroService {
     private ViaCepService viaCepService;
 
     @Override
-    public Iterable<Cadastro> buscarTodos() {
-        return cadastroRepository.findAll();
+    public Iterable<CadastroDTO> buscarTodos() {
+        return new CadastroDTOAdapter(cadastroRepository.findAll()).getCadastroDTOList();
     }
 
     @Override
-    public Cadastro buscarPorId(Long id) {
-        Optional<Cadastro> cliente = cadastroRepository.findById(id);
-        return cliente.get();
+    public CadastroDTO buscarPorId(Long id) {
+        Cadastro cadastro = cadastroRepository.findById(id).get();
+        return new CadastroDTOAdapter(cadastro).getCadastroDTO();
     }
 
     @Override
-    public void inserir(Cadastro cadastro) {
+    public void inserir(CadastroDTO cadastro) {
         salvarClienteComCep(cadastro);
     }
 
     @Override
-    public void atualizar(Long id, Cadastro cadastro) {
+    public void atualizar(Long id, CadastroDTO cadastro) {
         Optional<Cadastro> clienteBd = cadastroRepository.findById(id);
         if(clienteBd.isPresent()) {
             salvarClienteComCep(cadastro);
@@ -53,23 +59,33 @@ public class CadastroServiceImpl implements CadastroService {
     }
 
     @Override
-    public Cadastro buscarPorNome(String nome) {
-        return cadastroRepository.findByNome(nome);
+    public CadastroDTO buscarPorNome(String nome) {
+        return new CadastroDTOAdapter(cadastroRepository.findByNome(nome)).getCadastroDTO();
     }
 
     @Override
-    public List<Cadastro> buscaPorCadastro(String nome){
-        return cadastroRepository.buscarPorCadastro(nome);
+    public List<CadastroDTO> buscaPorCadastro(String nome){
+        return new CadastroDTOAdapter(cadastroRepository.buscarPorCadastro(nome)).getCadastroDTOList();
     }
 
-    private void salvarClienteComCep(Cadastro cadastro){
-        String cep = cadastro.getEndereco().getCep();
+    private void salvarClienteComCep(CadastroDTO cadastroDTO){
+        String cep = cadastroDTO.getEndereco().getCep();
         Endereco endereco =  enderecoRepository.findById(cep).orElseGet(()->{
             Endereco novoEndereco = viaCepService.consultarCep(cep);
             enderecoRepository.save(novoEndereco);
             return novoEndereco;
         });
+
+        Cadastro cadastro =  new CadastroModelAdapter(cadastroDTO).getCadastro();
         cadastro.setEndereco(endereco);
+        cadastro.setCasapropria(cadastroDTO.getCasapropria());
+        cadastro.setEstuda(cadastroDTO.getEstuda());
+        cadastro.setIdade(cadastroDTO.getIdade());
+        cadastro.setNumero(cadastroDTO.getNumero());
+        cadastro.setNome(cadastroDTO.getNome());
+        cadastro.setQuantosmoram(cadastroDTO.getQuantosmoram());
+        cadastro.setTelefone1(cadastro.getTelefone1());
+        cadastro.setTelefone2(cadastro.getTelefone2());
         cadastroRepository.save(cadastro);
     }
 }
