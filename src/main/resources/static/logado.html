@@ -41,8 +41,8 @@
                         <input type="text" class="form-control" id="codigo" style="width: 46px; "><label>Nome</label><input type="text" class="form-control" id="nome"  style="width: 382px; ">
   	                    <label>Data Nascimento </label>
   	                    <div class="input-group date" data-provide="datepicker" style="width: 184px;">
-                            <input type="date" class="form-control" id="datanasc">
-  	  	                    <div class="input-group-addon">
+                            <input type="text" class="form-control" id="datanasc" onfocus="(this.type = 'date')">
+                            <div class="input-group-addon">
                                 <span class="glyphicon glyphicon-th"></span>
                             </div>
 	                    </div>
@@ -168,10 +168,17 @@
                 <span class="fas fa-times">X</span>
             </span>
         </div>
+        <div class="alert-green hide">
+            <span class="fas fa-exclamation-circle">!</span>
+            <span class="msg-green">Atenção:</span>
+            <span class="close-btn-green">
+                <span class="fas fa-times">X</span>
+            </span>
+        </div>
 	    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
         <script src="scripts/funcoes.js"></script>
-        <script src="scripts/sessaoDTO.js"></script>
+        <script src="scripts/sessao.js"></script>
     </main>
     </div>
 </body>

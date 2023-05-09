@@ -23,13 +23,13 @@
         	    		url: "gerandopdf/"+nome,
         	    		//headers: {'X-XSRF-TOKEN': document.cookie.match(/XSRF-TOKEN=([\d\w-]+)/)[1]},
         	    		success: function(response){
-        	    		    $('.alert').removeClass("hide");
-                            $('.alert').addClass("show");
-                            $('.alert').addClass("showAlert");
-                            $('.msg').text("PDF salvo com sucesso!!");
+        	    		    $('.alert-green').removeClass("hide");
+                            $('.alert-green').addClass("show");
+                            $('.alert-green').addClass("showAlert");
+                            $('.msg-green').text("PDF salvo com sucesso!!");
                             setTimeout(function(){
-                                       $('.alert').addClass("hide");
-                                       $('.alert').removeClass("show");
+                                       $('.alert-green').addClass("hide");
+                                       $('.alert-green').removeClass("show");
 
                             },5000);
      	    			}
@@ -97,14 +97,14 @@
 			     $("#quantosmoram").val(response.quantosmoram);
 			     $("#numeronis").val(response.numeronis);
 
-        $('.alert').removeClass("hide");
-        $('.alert').addClass("show");
-        $('.alert').addClass("showAlert");
-        $('.msg').text("PDF gerado com Sucesso!!");
+        $('.alert-green').removeClass("hide");
+        $('.alert-green').addClass("show");
+        $('.alert-green').addClass("showAlert");
+        $('.msg-green').text("PDF gerado com Sucesso!!");
 
             setTimeout(function(){
-                 $('.alert').addClass("hide");
-                 $('.alert').removeClass("show");
+                 $('.alert-green').addClass("hide");
+                 $('.alert-green').removeClass("show");
             },5000);
 
 
@@ -155,13 +155,13 @@
 	    		//headers: {'X-XSRF-TOKEN': document.cookie.match(/XSRF-TOKEN=([\d\w-]+)/)[1]},
 	    		success: function(response){
 	    			$('#'+codigo).remove();
-	    			$('.alert').removeClass("hide");
-                    $('.alert').addClass("show");
-                    $('.alert').addClass("showAlert");
-                    $('.msg').text(response);
+	    			$('.alert-green').removeClass("hide");
+                    $('.alert-green').addClass("show");
+                    $('.alert-green').addClass("showAlert");
+                    $('.msg-green').text(response);
                     setTimeout(function(){
-                               $('.alert').addClass("hide");
-                               $('.alert').removeClass("show");
+                               $('.alert-green').addClass("hide");
+                               $('.alert-green').removeClass("show");
                     },5000);
 	    		}
 	    	}).fail(function(xhr,status,errorThrown){
@@ -195,13 +195,13 @@
 	    		//headers: {'X-XSRF-TOKEN': document.cookie.match(/XSRF-TOKEN=([\d\w-]+)/)[1]},
 	    		success: function(response){
 	    			$('#'+codigo).remove();
-	    			$('.alert').removeClass("hide");
-                    $('.alert').addClass("show");
-                    $('.alert').addClass("showAlert");
-                    $('.msg').text(response);
+	    			$('.alert-green').removeClass("hide");
+                    $('.alert-green').addClass("show");
+                    $('.alert-green').addClass("showAlert");
+                    $('.msg-green').text(response);
                     setTimeout(function(){
-                               $('.alert').addClass("hide");
-                               $('.alert').removeClass("show");
+                               $('.alert-green').addClass("hide");
+                               $('.alert-green').removeClass("show");
                     },5000);
 	    		}
 	    	}).fail(function(xhr,status,errorThrown){
@@ -484,13 +484,13 @@ function colocarEmEdicao(codigo){
    		    var resposta = confirm("Você Deseja cadastrar esse registro?");
    			if (resposta == true){
    			$("#codigo").val(response.codigo);
-   			 $('.alert').removeClass("hide");
-             $('.alert').addClass("show");
-             $('.alert').addClass("showAlert");
-             $('.msg').text(response);
+   			 $('.alert-green').removeClass("hide");
+             $('.alert-green').addClass("show");
+             $('.alert-green').addClass("showAlert");
+             $('.msg-green').text(response);
              setTimeout(function(){
-                      $('.alert').addClass("hide");
-                      $('.alert').removeClass("show");
+                      $('.alert-green').addClass("hide");
+                      $('.alert-green').removeClass("show");
              },5000);
    			}else{
    			 $('.alert').removeClass("hide");
@@ -520,25 +520,25 @@ function colocarEmEdicao(codigo){
            		url: "cadastro/"+codigo,
            		//headers: {'X-XSRF-TOKEN': document.cookie.match(/XSRF-TOKEN=([\d\w-]+)/)[1]},
            		data : JSON.stringify(
-           		    {
-           		    codigo : codigo,
-           		    nome : nome,
-           	        datanasc : datanasc,
-           		    idade : idade,
-           		    numero : numero,
-           		    endereco : {
-           		        logradouro: logradouro,
-           		        bairro : bairro,
-           		        cep : cep,
-           		        localidade : localidade,
-           		        uf : uf
-           		 },
-           		 telefone1 : telefone1,
-           		 telefone2: telefone2,
-           		 estuda : estuda,
-           		 quantosmoram : quantosmoram,
-           		 casapropria : casapropria,
-           		 numeronis : numeronis
+           		                        {
+           		                        codigo : codigo,
+           		                        nome : nome,
+                               	        datanasc : datanasc,
+                               		    idade : idade,
+                               		    numero : numero,
+                               		    endereco : {
+                               		        logradouro: logradouro,
+                               		        bairro : bairro,
+                               		        cep : cep,
+                               		        localidade : localidade,
+                               		        uf : uf
+                               		 },
+                               		 telefone1 : telefone1,
+                               		 telefone2: telefone2,
+                               		 estuda : estuda,
+                               		 quantosmoram : quantosmoram,
+                               		 casapropria : casapropria,
+                               		 numeronis : numeronis
            		 }),
            		contentType: "application/json; charset=utf-8",
            		success: function(response){
@@ -546,13 +546,13 @@ function colocarEmEdicao(codigo){
            		    var resposta = confirm("Você Deseja cadastrar esse registro?");
            			if (resposta == true){
            			$("#codigo").val(response.codigo);
-           			 $('.alert').removeClass("hide");
-                     $('.alert').addClass("show");
-                     $('.alert').addClass("showAlert");
-                     $('.msg').text(response);
+           			 $('.alert-green').removeClass("hide");
+                     $('.alert-green').addClass("show");
+                     $('.alert-green').addClass("showAlert");
+                     $('.msg-green').text(response);
                      setTimeout(function(){
-                              $('.alert').addClass("hide");
-                              $('.alert').removeClass("show");
+                              $('.alert-green').addClass("hide");
+                              $('.alert-green').removeClass("show");
                      },5000);
            			}else{
            			 $('.alert').removeClass("hide");
@@ -688,13 +688,13 @@ function colocarEmEdicao(codigo){
 
        		            var resposta = confirm("Você Deseja cadastrar esse Usuario?");
        			        if (resposta == true){
-       			          $('.alert').removeClass("hide");
- 				          $('.alert').addClass("show");
- 				          $('.alert').addClass("showAlert");
- 				          $('.msg').text(response);
+       			          $('.alert-green').removeClass("hide");
+ 				          $('.alert-green').addClass("show");
+ 				          $('.alert-green').addClass("showAlert");
+ 				          $('.msg-green').text(response);
  				          setTimeout(function(){
-                 					$('.alert').addClass("hide");
-                 					$('.alert').removeClass("show");
+                 					$('.alert-green').addClass("hide");
+                 					$('.alert-green').removeClass("show");
 
                          },5000);
                          //window.location.href = "index.html";

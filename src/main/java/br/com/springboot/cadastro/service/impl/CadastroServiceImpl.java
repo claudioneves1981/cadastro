@@ -1,11 +1,7 @@
 package br.com.springboot.cadastro.service.impl;
 
-import br.com.springboot.cadastro.adapter.CadastroDTOAdapter;
-import br.com.springboot.cadastro.adapter.CadastroModelAdapter;
-import br.com.springboot.cadastro.adapter.EnderecoDTOAdapter;
-import br.com.springboot.cadastro.adapter.EnderecoModelAdapter;
+import br.com.springboot.cadastro.adapter.*;
 import br.com.springboot.cadastro.dto.CadastroDTO;
-import br.com.springboot.cadastro.dto.EnderecoDTO;
 import br.com.springboot.cadastro.model.Cadastro;
 import br.com.springboot.cadastro.model.Endereco;
 import br.com.springboot.cadastro.repository.CadastroRepository;
@@ -20,6 +16,7 @@ import java.util.Optional;
 
 @Service
 public class CadastroServiceImpl implements CadastroService {
+
     @Autowired
     private CadastroRepository cadastroRepository;
 
@@ -68,6 +65,7 @@ public class CadastroServiceImpl implements CadastroService {
         return new CadastroDTOAdapter(cadastroRepository.buscarPorCadastro(nome)).getCadastroDTOList();
     }
 
+
     private void salvarClienteComCep(CadastroDTO cadastroDTO){
         String cep = cadastroDTO.getEndereco().getCep();
         Endereco endereco =  enderecoRepository.findById(cep).orElseGet(()->{
@@ -78,14 +76,6 @@ public class CadastroServiceImpl implements CadastroService {
 
         Cadastro cadastro =  new CadastroModelAdapter(cadastroDTO).getCadastro();
         cadastro.setEndereco(endereco);
-        cadastro.setCasapropria(cadastroDTO.getCasapropria());
-        cadastro.setEstuda(cadastroDTO.getEstuda());
-        cadastro.setIdade(cadastroDTO.getIdade());
-        cadastro.setNumero(cadastroDTO.getNumero());
-        cadastro.setNome(cadastroDTO.getNome());
-        cadastro.setQuantosmoram(cadastroDTO.getQuantosmoram());
-        cadastro.setTelefone1(cadastro.getTelefone1());
-        cadastro.setTelefone2(cadastro.getTelefone2());
         cadastroRepository.save(cadastro);
     }
 }

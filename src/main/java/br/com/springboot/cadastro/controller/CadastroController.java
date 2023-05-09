@@ -1,29 +1,15 @@
 package br.com.springboot.cadastro.controller;
 
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.List;
-import java.util.Optional;
 
 import br.com.springboot.cadastro.dto.CadastroDTO;
-import br.com.springboot.cadastro.model.Endereco;
-import br.com.springboot.cadastro.repository.EnderecoRepository;
 import br.com.springboot.cadastro.service.CadastroService;
-import br.com.springboot.cadastro.service.ViaCepService;
 import br.com.springboot.cadastro.utils.PdfUtil;
-import br.com.springboot.cadastro.utils.TabelaUtil;
-import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.PageSize;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import br.com.springboot.cadastro.model.Cadastro;
-import br.com.springboot.cadastro.repository.CadastroRepository;
 
 /**
  *
@@ -97,7 +83,7 @@ public class CadastroController {
     @GetMapping(value = "/gerandopdf/{nome}")
     @ResponseBody
     public ResponseEntity<List<CadastroDTO>> gerandoPdf(@PathVariable String nome) throws IOException, DocumentException{
-       List <CadastroDTO> cadastro = cadastroService.buscaPorCadastro(nome.trim().toUpperCase());
+       List<CadastroDTO> cadastro = cadastroService.buscaPorCadastro(nome);
        PdfUtil.gerarRelatorio(cadastro);
        return ResponseEntity.ok()
                .body(cadastro);
