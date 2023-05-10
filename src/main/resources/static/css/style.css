@@ -71,7 +71,7 @@
     color: #000;
 }
 
-button.input-block {
+button.input-block, a.input-block{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -80,7 +80,7 @@ button.input-block {
     transition: .3s;
 }
 
-button.input-block:hover {
+button.input-block:hover, a.input-block:hover{
     background-color: #fff;
     color: #000;
 }
@@ -121,7 +121,7 @@ button.input-block:hover {
     font-weight: bold;
 }
 
-.over button {
+.over button, .over a{
     width: 100px;
     background-color: #fff;
     border: none;
@@ -133,7 +133,7 @@ button.input-block:hover {
     font-weight: bold;
 }
 
-.over button:hover {
+.over button:hover, .over a:hover {
     background-color: rgb(218, 218, 218);
     transform:translateY(-4px);
 }

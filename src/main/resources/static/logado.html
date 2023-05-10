@@ -53,7 +53,7 @@
                     <h2 class="sub-title">Endereço</h2>
                     <div class="col-md-6" style ="width: 650px;">
                         <label>CEP </label><input type="text" class="form-control" id="cep" style="width: 92px; " maxlength="9">
-                        <button type="button" class="input-block btn-primary" onclick="consultarCep()">Pesquisar</button>
+                        <button type="button" class="input-block bg-primary" onclick="consultarCep()">Pesquisar</button>
                         <label>Cidade </label><input type="text" class="form-control" id="cidade" style="width: 92px; ">
                         <label   >UF </label><input type="text" class="form-control" id="estado" style="width: 92px; ">
                         <label>Endereço </label><input type="text" class="form-control" id="endereco"  style="width: 300px; ">
@@ -101,11 +101,11 @@
 	                </form>
 	                <table>
                     <tr>
-                        <th><button type="button" class="input-block btn-primary" onclick="salvarUsuario()">Salvar</button>
+                        <th><button type="button" class="input-block bg-primary" onclick="salvarUsuario()">Salvar</button>
                         </th>
-                        <th><button type="button" class="input-block btn-secondary" onclick="novoUsuario();">Novo</button>
+                        <th><button type="button" class="input-block bg-secondary" onclick="novoUsuario();">Novo</button>
                         </th>
-                        <th><button type="button" class="input-block btn-warning" onclick="botaoDeletarDaTela();">Deletar</button>
+                        <th><button type="button" class="input-block bg-warning" onclick="botaoDeletarDaTela();">Deletar</button>
                         </th>
                     </tr>
                     </table>
@@ -123,12 +123,12 @@
                                     <div>
                                         <label>Pesquisar por algum Dado da Tabela.</label>
                                         <input type="text" class="form-control" id="cadastroBusca" style="width: 325px;">
-                                        <button type="button" class="input-block btn-success" onclick="pesquisarCadastro()">Buscar</button>
+                                        <button type="button" class="input-block bg-success" onclick="pesquisarCadastro()">Buscar</button>
                                     </div>
                                     <div>
                                         <br>
-                                        <button type="button" class="input-block btn-secondary" onclick="listarCadastros()">Gerar Relatorio</button>
-                                        <button type="button" class="input-block btn-warning" onclick="coletaDados()">Imprimir Selecionados</button>
+                                        <button type="button" class="input-block bg-secondary" onclick="listarCadastros()">Gerar Relatorio</button>
+                                        <button type="button" class="input-block bg-warning" onclick="coletaDados()">Imprimir Selecionados</button>
                                         <label id ="registrosencontrados">Registros Encontrados: </label>
                                     </div>
                                 </form>
@@ -169,10 +169,10 @@
             </span>
         </div>
         <div class="alert-green hide">
-            <span class="fas fa-exclamation-circle">!</span>
+            <span class="fas fa-exclamation-circle-green">!</span>
             <span class="msg-green">Atenção:</span>
             <span class="close-btn-green">
-                <span class="fas fa-times">X</span>
+                <span class="fas fa-times-green">X</span>
             </span>
         </div>
 	    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>

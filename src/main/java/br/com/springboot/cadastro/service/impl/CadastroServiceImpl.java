@@ -2,6 +2,7 @@ package br.com.springboot.cadastro.service.impl;
 
 import br.com.springboot.cadastro.adapter.*;
 import br.com.springboot.cadastro.dto.CadastroDTO;
+import br.com.springboot.cadastro.dto.CadastroUpdateDTO;
 import br.com.springboot.cadastro.model.Cadastro;
 import br.com.springboot.cadastro.model.Endereco;
 import br.com.springboot.cadastro.repository.CadastroRepository;
@@ -75,6 +76,19 @@ public class CadastroServiceImpl implements CadastroService {
         });
 
         Cadastro cadastro =  new CadastroModelAdapter(cadastroDTO).getCadastro();
+        cadastro.setEndereco(endereco);
+        cadastroRepository.save(cadastro);
+    }
+
+    private void salvarClienteComCep(CadastroUpdateDTO cadastroDTO){
+        String cep = cadastroDTO.getEndereco().getCep();
+        Endereco endereco =  enderecoRepository.findById(cep).orElseGet(()->{
+            Endereco novoEndereco = viaCepService.consultarCep(cep);
+            enderecoRepository.save(novoEndereco);
+            return novoEndereco;
+        });
+
+        Cadastro cadastro =  new CadastroUpdateModelAdapter(cadastroDTO).getCadastro();
         cadastro.setEndereco(endereco);
         cadastroRepository.save(cadastro);
     }

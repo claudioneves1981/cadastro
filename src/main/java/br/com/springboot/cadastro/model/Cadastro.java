@@ -25,8 +25,8 @@ public class Cadastro implements Serializable{
 	private Long codigo;
 
 	private String nome;
-	
-	@JsonFormat(pattern="yyyy-MM-dd")
+
+	@JsonFormat(pattern="dd/MM/yyyy")
 	private Date datanasc;
 	
 	private String idade;

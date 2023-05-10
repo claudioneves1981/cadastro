@@ -229,7 +229,7 @@ function colocarEmEdicaoAdm(codigo){
 	   			    $("#usuario").val(response.usuario);
 	   			    $("#senha").val(response.senha);
 	    		    $("#cadastrar").remove();
-	    		    $("#novo").after(' '+'<button id="cadastrar" type="button" class="input-block btn-secondary" onclick="salvarAdministrativo()">Cadastrar</button>');
+	    		    $("#novo").after(' '+'<button id="cadastrar" type="button" class="input-block bg-secondary" onclick="salvarAdministrativo()">Cadastrar</button>');
 
 				
 	    	    }
@@ -248,13 +248,13 @@ function colocarEmEdicaoAdm(codigo){
   function novoAdministrativo(){
 	document.getElementById('formAdministrativo').reset()
 	$("#cadastrar").remove();
-	$("#novo").after('<button id="cadastrar" type="button" class="input-block btn-secondary" onclick="salvarAdministrativo()">Cadastrar</button>');
+	$("#novo").after('<button id="cadastrar" type="button" class="input-block bg-secondary" onclick="salvarAdministrativo()">Cadastrar</button>');
   }
   
   function novoUsuario(){
 		document.getElementById('formCadastro').reset()
 		$("#salvar").remove();
-		$("#botoes").append('<button id="salvar" type="button" class="input-block btn-primary" onclick="salvarUsuario()">Salvar</button>');
+		$("#botoes").append('<button id="salvar" type="button" class="input-block bg-primary" onclick="salvarUsuario()">Salvar</button>');
   }
    
 function colocarEmEdicao(codigo){
@@ -266,7 +266,7 @@ function colocarEmEdicao(codigo){
 	    		success: function(response){
 	    		    $("#codigo").val(response.codigo);
    				    $("#nome").val(response.nome);
-	   			    $("#datanasc").val(response.datanasc);
+	   			    $("#datanasc").text(response.datanasc);
 	   			    $("#idade").val(response.idade);
 				    $("#endereco").val(response.endereco.logradouro);
 				    $("#numero").val(response.numero);
@@ -279,7 +279,7 @@ function colocarEmEdicao(codigo){
 				    $("#quantosmoram").val(response.quantosmoram);
 				    $("#numeronis").val(response.numeronis);
 				    $("#salvar").remove();
-	    		    $("#botoes").append(' '+'<button id="salvar" type="button" class="input-block btn-primary" onclick="salvarUsuario()">Salvar</button>');
+	    		    $("#botoes").append(' '+'<button id="salvar" type="button" class="input-block bg-primary" onclick="salvarUsuario()">Salvar</button>');
                 }
 
 
@@ -315,9 +315,9 @@ function colocarEmEdicao(codigo){
    	   						'<td>'+response[i].endereco.logradouro+'</td><td>'+response[i].numero+'</td>'+
    	   						'<td>'+response[i].endereco.bairro+'</td><td>'+response[i].endereco.cep+'</td>'+
    	   						'<td>'+response[i].endereco.localidade+'</td><td>'+response[i].telefone1+'</td>'+
-   	   						'<td><div><a class="nav input-block btn-secondary" href="#" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" role="tab" aria-controls="profile" aria-selected="true" onclick="colocarEmEdicao('+response[i].codigo+')">Editar</a></div></td>'+
-   	   						'<td><button type="button" class="input-block btn-danger" onclick="deleteCadastro('+response[i].codigo+')">Delete</button></td>'+
-   	   						'<td><button type="button" class="input-block btn-primary" onclick="CriaPDF('+response[i].codigo+')">Imprimir/PDF</button></td></tr>'
+   	   						'<td><div><a class="nav input-block bg-secondary" href="#" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" role="tab" aria-controls="profile" aria-selected="true" onclick="colocarEmEdicao('+response[i].codigo+')">Editar</a></div></td>'+
+   	   						'<td><button type="button" class="input-block bg-danger" onclick="deleteCadastro('+response[i].codigo+')">Delete</button></td>'+
+   	   						'<td><button type="button" class="input-block bg-primary" onclick="CriaPDF('+response[i].codigo+')">Imprimir/PDF</button></td></tr>'
    	   					);
    	    			}
  	    			$('#quantidade').remove();
@@ -359,8 +359,8 @@ function colocarEmEdicao(codigo){
      	   						'<td>'+response[i].nome+'</td>'+
      	   						'<td>'+response[i].usuario+'</td>'+
      	   						'<td>'+resposta+'</td>'+
-     	   						'<td><button type="button" class="input-block btn-secondary" onclick="colocarEmEdicaoAdm('+response[i].codigo+')">Ver</button></td>'+
-     	   						'<td><button type="button" class="input-block btn-danger" onclick="deleteAdministrativo('+response[i].codigo+')">Delete</button></td></tr>'
+     	   						'<td><button type="button" class="input-block bg-secondary" onclick="colocarEmEdicaoAdm('+response[i].codigo+')">Ver</button></td>'+
+     	   						'<td><button type="button" class="input-block bg-danger" onclick="deleteAdministrativo('+response[i].codigo+')">Delete</button></td></tr>'
      	   				);
      	   			}
    	    			$('#quantidadeadm').remove();
@@ -454,6 +454,7 @@ function colocarEmEdicao(codigo){
    	}
 
    	if(codigo == "" || codigo == null){
+
    	$.ajax({
    		method: "POST",
    		url: "cadastro/salvarcadastro",
@@ -520,25 +521,25 @@ function colocarEmEdicao(codigo){
            		url: "cadastro/"+codigo,
            		//headers: {'X-XSRF-TOKEN': document.cookie.match(/XSRF-TOKEN=([\d\w-]+)/)[1]},
            		data : JSON.stringify(
-           		                        {
-           		                        codigo : codigo,
-           		                        nome : nome,
-                               	        datanasc : datanasc,
-                               		    idade : idade,
-                               		    numero : numero,
-                               		    endereco : {
-                               		        logradouro: logradouro,
-                               		        bairro : bairro,
-                               		        cep : cep,
-                               		        localidade : localidade,
-                               		        uf : uf
-                               		 },
-                               		 telefone1 : telefone1,
-                               		 telefone2: telefone2,
-                               		 estuda : estuda,
-                               		 quantosmoram : quantosmoram,
-                               		 casapropria : casapropria,
-                               		 numeronis : numeronis
+           		       {
+           		         codigo : codigo,
+           		         nome : nome,
+                         datanasc : datanasc,
+                         idade : idade,
+                         numero : numero,
+                         endereco : {
+                                    logradouro: logradouro,
+                                    bairro : bairro,
+                                    cep : cep,
+                                    localidade : localidade,
+                                    uf : uf
+                                    },
+                         telefone1 : telefone1,
+                         telefone2: telefone2,
+                         estuda : estuda,
+                         quantosmoram : quantosmoram,
+                         casapropria : casapropria,
+                         numeronis : numeronis
            		 }),
            		contentType: "application/json; charset=utf-8",
            		success: function(response){

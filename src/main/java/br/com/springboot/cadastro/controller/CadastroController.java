@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import br.com.springboot.cadastro.dto.CadastroDTO;
+import br.com.springboot.cadastro.dto.CadastroUpdateDTO;
 import br.com.springboot.cadastro.service.CadastroService;
 import br.com.springboot.cadastro.utils.PdfUtil;
 import com.itextpdf.text.DocumentException;

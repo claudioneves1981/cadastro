@@ -17,7 +17,7 @@
     --yellow: #ffc12b;
 }
 
-body, button, a{
+body {
     color: var(--blue);
     font: 400 1rem "Mukita", sans-serif;
 }

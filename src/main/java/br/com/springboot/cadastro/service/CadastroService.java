@@ -1,6 +1,7 @@
 package br.com.springboot.cadastro.service;
 
 import br.com.springboot.cadastro.dto.CadastroDTO;
+import br.com.springboot.cadastro.dto.CadastroUpdateDTO;
 
 import java.util.List;
 
