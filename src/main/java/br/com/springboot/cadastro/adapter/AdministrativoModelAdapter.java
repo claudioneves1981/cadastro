@@ -29,7 +29,7 @@ public class AdministrativoModelAdapter {
 
         return Administrativo.builder()
                 .codigo(administrativoDTO.getCodigo())
-                .administrativo(administrativoDTO.getAdministrativo())
+                .roles(administrativoDTO.getRoles())
                 .usuario(administrativoDTO.getUsuario())
                 .senha(administrativoDTO.getSenha())
                 .nome(administrativoDTO.getNome())

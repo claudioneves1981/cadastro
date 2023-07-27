@@ -6,17 +6,16 @@ import java.util.List;
 public class SessaoDTO {
 
     private String login;
-    private Boolean administrativo;
 
-
-    public Boolean getAdministrativo() {
-        return administrativo;
+    public List<String> getRoles() {
+        return roles;
     }
 
-    public void setAdministrativo(Boolean administrativo) {
-        this.administrativo = administrativo;
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
     }
 
+    private List<String> roles;
 
     public String getLogin() {
         return login;

@@ -38,7 +38,7 @@ public class LoginController {
             }
             SessaoDTO sessaoDTO = new SessaoDTO();
             sessaoDTO.setLogin(user.getUsuario());
-            sessaoDTO.setAdministrativo(user.getAdministrativo());
+            sessaoDTO.setRoles(user.getRoles());
             return ResponseEntity.ok(sessaoDTO);
         }else{
             throw new RuntimeException("Erro ao tentar fazer login");

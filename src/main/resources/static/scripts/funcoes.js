@@ -614,6 +614,7 @@ function colocarEmEdicao(codigo){
             if(administrativo == true){
 
                roles[0] = "ROLE_ADMIN";
+               roles[1] = "ROLE_USERS"
 
             }else{
 
@@ -736,57 +737,7 @@ function colocarEmEdicao(codigo){
 
 
  		});
-
  }
-
- $("#logar").on('click', function(){
-         const username = $('input:text[name=usuario]').val();
-       	 const password = $('input:password[name=senha]').val();
-
-   if(username == "" || password == "") {
- 		        $('.alert').removeClass("hide");
- 				$('.alert').addClass("show");
- 				$('.alert').addClass("showAlert");
- 				$('.msg').text('Todos os Campos São Obrigatorios');
- 				setTimeout(function(){
-                 					$('.alert').addClass("hide");
-                 					$('.alert').removeClass("show");
-
-                },5000);
- 	}else{
- 		$.ajax({
- 			method: "POST",
- 			url: "login",
- 			//////headers: {'X-XSRF-TOKEN': document.cookie.match(/XSRF-TOKEN=([\d\w-]+)/)[1]},
- 			data: JSON.stringify({username : username, password : password}),
-       		contentType: "application/json; charset=utf-8"
- 		}).done(function(retorno){
- 				    if(retorno.administrativo == false){
- 					    window.localStorage.setItem("usuariologado", "Olá "+retorno.login);
- 					    window.location.href = "logado.html";
- 					}else if(retorno.administrativo == true){
-                     	window.localStorage.setItem("usuariologado", "Olá "+retorno.login);
-                     	window.location.href = "logadoadmin.html";
- 				    }else{
- 				         $('.alert').removeClass("hide");
- 				         $('.alert').addClass("show");
- 				         $('.alert').addClass("showAlert");
- 				         $('.msg').text('Usuario , Senha ou Privilégio incorreto');
- 				         setTimeout(function(){
-                          					$('.alert').addClass("hide");
-                          					$('.alert').removeClass("show");
-
-                         },5000);
- 				    }
-
- 		});
-
- 		$("#usuario").val("");
- 		$("#senha").val("");
-
- 	}
-
- 	});
 
  $("#confirma").on('click', function(){
     cadastrarAdministrativo('cadastroadministrativo');

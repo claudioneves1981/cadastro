@@ -31,7 +31,7 @@ public class AdministrativoDTOAdapter {
 
         return AdministrativoDTO.builder()
                 .codigo(administrativo.getCodigo())
-                .administrativo(administrativo.getAdministrativo())
+                .roles(administrativo.getRoles())
                 .usuario(administrativo.getUsuario())
                 .senha(administrativo.getSenha())
                 .nome(administrativo.getNome())
