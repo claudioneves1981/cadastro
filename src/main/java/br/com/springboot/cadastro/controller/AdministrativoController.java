@@ -15,8 +15,9 @@ import br.com.springboot.cadastro.model.Administrativo;
  */
 @RestController
 @RequestMapping("administrativo")
+@CrossOrigin(value = "http://localhost:8080")
 public class AdministrativoController {
-	
+
 	@Autowired
 	private AdministrativoService administrativoService;
     /**

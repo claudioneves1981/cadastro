@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("cadastroadministrativo")
+@CrossOrigin(value = "http://localhost:8080")
 public class CadastroAdministrativoController {
 
     @Autowired

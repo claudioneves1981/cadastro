@@ -40,10 +40,9 @@ public class AdministrativoDTOAdapter {
 
     private List<AdministrativoDTO> toDTOList(List<Administrativo> administrativos){
 
-        List<AdministrativoDTO> AdministrativoDTOList = new ArrayList<>();
+        List<AdministrativoDTO> administrativoDTOList = new ArrayList<>();
         for(Administrativo administrativo : administrativos){
             administrativoDTOList.add(toDTO(administrativo));
-
         }
 
         return administrativoDTOList;
