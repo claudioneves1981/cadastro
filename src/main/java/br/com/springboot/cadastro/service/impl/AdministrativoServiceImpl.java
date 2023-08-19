@@ -7,6 +7,9 @@ import br.com.springboot.cadastro.model.Administrativo;
 import br.com.springboot.cadastro.repository.AdministrativoRepository;
 import br.com.springboot.cadastro.service.AdministrativoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,6 +20,9 @@ public class AdministrativoServiceImpl implements AdministrativoService {
 
     @Autowired
     private AdministrativoRepository administrativoRepository;
+
+    @Autowired
+    private PasswordEncoder encoder;
 
     @Override
     public Iterable<AdministrativoDTO> buscarTodos() {
@@ -32,6 +38,8 @@ public class AdministrativoServiceImpl implements AdministrativoService {
     @Override
     public void inserir(AdministrativoDTO administrativoDTO) {
         Administrativo administrativo = new AdministrativoModelAdapter(administrativoDTO).getAdministrativo();
+        String pass = administrativo.getSenha();
+        administrativo.setSenha(encoder.encode(pass));
         administrativoRepository.save(administrativo);
     }
 

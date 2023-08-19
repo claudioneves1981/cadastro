@@ -14,7 +14,7 @@
 	<description>Demo project for Spring Boot</description>
 	<properties>
       <java.version>11</java.version>
-      <openapi.version>1.5.10</openapi.version>
+      <openapi.version>1.6.15</openapi.version>
       <spring-cloud.version>2020.0.3</spring-cloud.version>
   </properties>
   <dependencies>
@@ -52,11 +52,16 @@
       <scope>test</scope>
     </dependency>
 
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-security</artifactId>
+    </dependency>
+
 
     <dependency>
       <groupId>com.itextpdf</groupId>
       <artifactId>itextpdf</artifactId>
-      <version>5.5.13.2</version>
+      <version>5.5.13.3</version>
     </dependency>
 
     <dependency>
@@ -69,7 +74,7 @@
       <groupId>com.hackerrank.applications</groupId>
       <artifactId>junit-ordered-test-runner</artifactId>
       <scope>test</scope>
-      <version>1.0.1</version>
+      <version>1.0.2</version>
     </dependency>
     
     <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
@@ -104,13 +109,5 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-maven-plugin</artifactId>
-      </plugin>
-    </plugins>
-  </build>
 </project>
 		
