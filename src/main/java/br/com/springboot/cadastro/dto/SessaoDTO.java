@@ -1,31 +1,20 @@
 package br.com.springboot.cadastro.dto;
 
-import java.util.ArrayList;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.List;
 
+@Data
+@Builder                                                    
+@NoArgsConstructor
+@AllArgsConstructor
 public class SessaoDTO {
 
     private String login;
-
-    public List<String> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(List<String> roles) {
-        this.roles = roles;
-    }
-
     private List<String> roles;
-
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-
 
 }
 

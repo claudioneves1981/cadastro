@@ -60,6 +60,8 @@ public class AdministrativoServiceImpl implements AdministrativoService {
 
     @Override
     public AdministrativoDTO buscarPorUsuario(String nome) {
+
         return new AdministrativoDTOAdapter(administrativoRepository.findByUsuario(nome)).getAdministrativoDTO();
+
     }
 }

@@ -12,7 +12,7 @@ import java.util.List;
 import javax.persistence.*;
 
 @Entity
-@SequenceGenerator(name = "seq_administrativo" , sequenceName = "seq_administrativo", allocationSize = 1, initialValue = 1)
+@SequenceGenerator(name = "seq_administrativo" , sequenceName = "seq_administrativo", allocationSize = 1)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -31,13 +31,10 @@ public class Administrativo implements Serializable{
 
 	private String senha;
 
-	private Boolean administrativo;
-
 	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name= "tab_user_roles",joinColumns = @JoinColumn(name = "codigo"))
 	@Column(name = "role_id")
 	private List<String> roles = new ArrayList<>();
-
 }
 	
 

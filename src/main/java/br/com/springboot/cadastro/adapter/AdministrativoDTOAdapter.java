@@ -4,6 +4,7 @@ import br.com.springboot.cadastro.dto.AdministrativoDTO;
 import br.com.springboot.cadastro.dto.EnderecoDTO;
 import br.com.springboot.cadastro.model.Administrativo;
 import br.com.springboot.cadastro.model.Cadastro;
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.ArrayList;

@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AdministrativoRepository extends JpaRepository<Administrativo, Long> {
 
-//@Query("SELECT a FROM Administrativo a JOIN FETCH a.roles WHERE a.usuario=:usuario")
+@Query("SELECT a FROM Administrativo a JOIN FETCH a.roles WHERE a.usuario=:usuario")
 Administrativo findByUsuario(@Param("usuario") String usuario);
-
 }
