@@ -8,13 +8,10 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Data
-@Builder                                                    
-@NoArgsConstructor
-@AllArgsConstructor
 public class SessaoDTO {
 
     private String login;
-    private List<String> roles;
+    private String token;
 
 }
 

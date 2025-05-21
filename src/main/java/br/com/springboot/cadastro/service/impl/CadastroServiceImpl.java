@@ -80,16 +80,4 @@ public class CadastroServiceImpl implements CadastroService {
         cadastroRepository.save(cadastro);
     }
 
-    private void salvarClienteComCep(CadastroUpdateDTO cadastroDTO){
-        String cep = cadastroDTO.getEndereco().getCep();
-        Endereco endereco =  enderecoRepository.findById(cep).orElseGet(()->{
-            Endereco novoEndereco = viaCepService.consultarCep(cep);
-            enderecoRepository.save(novoEndereco);
-            return novoEndereco;
-        });
-
-        Cadastro cadastro =  new CadastroUpdateModelAdapter(cadastroDTO).getCadastro();
-        cadastro.setEndereco(endereco);
-        cadastroRepository.save(cadastro);
-    }
 }
